@@ -9,7 +9,7 @@ import com.vaadin.ui.*;
 
 public class EditWindow extends Window {
     public EditWindow() {
-        super("Изменить"); // Set window caption
+        super("Изменить данные"); // Set window caption
         center();
 
         // Some basic vLayout for the window
@@ -49,7 +49,6 @@ public class EditWindow extends Window {
 
 
         Button ok = new Button("OK");
-        //ok.setWidth(100.0f, Unit.PERCENTAGE);
         ok.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 close(); // Close the sub-window
@@ -58,7 +57,7 @@ public class EditWindow extends Window {
         hLayout.addComponent(ok);
 
         Button cancel = new Button("Отменить");
-        //cancel.setWidth(100.0f, Unit.PERCENTAGE);
+        cancel.setWidth(String.valueOf(130));
         cancel.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 close(); // Close the sub-window
