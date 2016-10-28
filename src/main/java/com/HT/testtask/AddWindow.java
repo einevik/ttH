@@ -25,7 +25,7 @@ class AddWindow extends Window {
         name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         numGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
-        date.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d", "Только цифры без пробелов"));
+        date.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d", "Разделители: . / -"));
         date.setInputPrompt("дд.мм.гггг");
 
         vLayout.addComponent(surname);
