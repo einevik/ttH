@@ -63,18 +63,33 @@ public class MainUI extends UI {
             }
         });
 
+        delete.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                Object rowId = studentTable.getValue();
+                if (rowId != null) {
+
+                    SQLContainer deleteContainer = new SQLContainer(new TableQuery("tbl_grade", connectionPool));
+                    RowId itemID = new RowId(new Integer[] { 10 });
+                    deleteContainer.removeItem(itemID);
+                    deleteContainer.commit();
+
+                    Notification.show("Выбран", Type.TRAY_NOTIFICATION);
+                }
+                else {
+                    Notification.show("Не выбран", Type.TRAY_NOTIFICATION);
+                }
+            }
+        });
+
+
+
         vLayout.addComponent(studentTable);
         vLayout.addComponent(hLayout);
         hLayout.addComponent(add);
         hLayout.addComponent(edit);
         hLayout.addComponent(delete);
         setContent(vLayout);
-    }
-
-    public void delete(Button.ClickEvent event) {
-        Notification.show("Ничего не произошло", Type.TRAY_NOTIFICATION);
-
-        //getUI().contactList.select(null);
     }
 
 }
