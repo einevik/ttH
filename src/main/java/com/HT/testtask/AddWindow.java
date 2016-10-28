@@ -7,7 +7,7 @@ import com.vaadin.ui.Button.ClickEvent;
 
 class AddWindow extends Window {
     public AddWindow() {
-        super("Добавить"); // Set window caption
+        super("Добавить студента"); // Set window caption
         center();
 
         // Some basic vLayout for the window
@@ -46,7 +46,6 @@ class AddWindow extends Window {
         setContent(vLayout);
 
         Button ok = new Button("OK");
-        //ok.setWidth(100.0f, Unit.PERCENTAGE);
         ok.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 close(); // Close the sub-window
@@ -55,7 +54,7 @@ class AddWindow extends Window {
         hLayout.addComponent(ok);
 
         Button cancel = new Button("Отменить");
-        //cancel.setWidth(100.0f, Unit.PERCENTAGE);
+        cancel.setWidth(String.valueOf(130));
         cancel.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 close(); // Close the sub-window
