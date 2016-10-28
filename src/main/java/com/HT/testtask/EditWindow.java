@@ -18,14 +18,17 @@ public class EditWindow extends Window {
         HorizontalLayout clearLayout = new HorizontalLayout();
 
         TextField surname = new TextField("Фамилия");
-        surname.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$","Только буквы без пробелов"));
         TextField name = new TextField("Имя");
-        name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$","Только буквы без пробелов"));
         TextField patronymic = new TextField("Отчество");
-        patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$","Только буквы без пробелов"));
         TextField numGroup = new TextField("Группа");
-        numGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
         TextField date = new TextField("Дата Рождения");
+
+        surname.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
+        name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
+        patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
+        numGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
+        date.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d", "Разделители: . / -"));
+        date.setInputPrompt("дд.мм.гггг");
 
         vLayout.addComponent(surname);
         vLayout.addComponent(name);
