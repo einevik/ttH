@@ -3,10 +3,7 @@ package com.HT.testtask.DAO;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.data.util.sqlcontainer.connection.JDBCConnectionPool;
-import com.vaadin.data.util.sqlcontainer.connection.SimpleJDBCConnectionPool;
 import com.vaadin.data.util.sqlcontainer.query.FreeformQuery;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.Table;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,15 +12,11 @@ import java.sql.Statement;
 public class StudensDAO {
 
     public Container buildContainer() throws SQLException {
-        JDBCConnectionPool connectionPool = new SimpleJDBCConnectionPool(
-                "org.hsqldb.jdbc.JDBCDriver",
-                "jdbc:hsqldb:file:db/Students", "SA", "");
-
-        initDatabase(connectionPool);
-
+        Connect connect = new Connect();
+        initDatabase(connect.connectionPool);
         return new SQLContainer(new FreeformQuery(
                 "SELECT id, surname, name, patronymic, numGroup, date FROM StudentTable",
-                connectionPool));
+                connect.connectionPool));
     }
 
     private void initDatabase(JDBCConnectionPool connectionPool) {
