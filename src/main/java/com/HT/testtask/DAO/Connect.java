@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Connect {
 
-        JDBCConnectionPool connectionPool;
+        public JDBCConnectionPool connectionPool;
 
     public Connect() {
         try {
