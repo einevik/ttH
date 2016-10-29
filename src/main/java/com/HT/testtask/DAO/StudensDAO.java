@@ -79,4 +79,22 @@ public class StudensDAO {
             connect.connectionPool.releaseConnection(conn);
         }
     }
+
+    public void Edit (int id) {
+        Connection conn = null;
+        Connect connect = new Connect();
+        try {
+            conn = connect.connectionPool.reserveConnection();
+            try (PreparedStatement statement = conn.prepareStatement("DELETE FROM StudentTable WHERE ID = ?")) {
+                statement.setObject(1, id);
+                statement.executeUpdate();
+                statement.close();
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connect.connectionPool.releaseConnection(conn);
+        }
+    }
 }
