@@ -6,7 +6,10 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.sqlcontainer.RowItem;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.SelectionEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -87,17 +90,31 @@ public class MainUI extends UI {
             }
         });
 
+//        studentTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+//            @Override
+//            public void itemClick(ItemClickEvent event) {
+//                //Manage collection and manually fetch property of table
+//                Object tableValue = event.getItem().getItemProperty("ID").getValue();
+//                if (tableValue!=null){
+//                Notification.show("Студент удален", Type.TRAY_NOTIFICATION);}
+//                else{Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);}
+//            }
+//        });
 
         delete.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
+
                 Object rowId = studentTable.getValue();
-                if (rowId != null) {
+                if (rowId!=null) {
+
                     Connection conn = null;
+                    int id = (int)studentTable.getContainerProperty(rowId, "ID").getValue();
+
                     try {
                         conn = connect.connectionPool.reserveConnection();
                         try (PreparedStatement statement = conn.prepareStatement("DELETE FROM StudentTable WHERE ID = ?")) {
-                            statement.setInt(1, 2);
+                            statement.setObject(1, id);
                             statement.executeUpdate();
                             statement.close();
                         }
