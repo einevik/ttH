@@ -13,7 +13,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -42,7 +45,7 @@ public class MainUI extends UI {
         studentTable.setColumnHeader("NAME", "Имя");
         studentTable.setColumnHeader("PATRONYMIC", "Отчество");
         studentTable.setColumnHeader("NUMGROUP", "Группа");
-        studentTable.setColumnAlignment ( "NUMGROUP",Table.ALIGN_CENTER);
+        studentTable.setColumnAlignment("NUMGROUP", Table.ALIGN_CENTER);
         studentTable.setColumnHeader("DATE", "Дата рождения");
 
         studentTable.setPageLength(10);
@@ -53,16 +56,13 @@ public class MainUI extends UI {
         studentTable.addGeneratedColumn("DATE", new Table.ColumnGenerator() {
 
             @Override
-            public Object generateCell(Table source, Object itemId,
-                                       Object columnId) {
+            public Object generateCell(Table source, Object itemId, Object columnId) {
 
                 Item item = source.getItem(itemId);
-
                 Property<Date> prop = item.getItemProperty(columnId);
-
                 Date date = (Date) prop.getValue();
-
                 return new Label(df.format(date));
+
             }
         });
 
@@ -97,7 +97,7 @@ public class MainUI extends UI {
                     try {
                         conn = connect.connectionPool.reserveConnection();
                         try (PreparedStatement statement = conn.prepareStatement("DELETE FROM StudentTable WHERE ID = ?")) {
-                            statement.setInt(1,2);
+                            statement.setInt(1, 2);
                             statement.executeUpdate();
                             statement.close();
                         }
@@ -108,7 +108,7 @@ public class MainUI extends UI {
                         connect.connectionPool.releaseConnection(conn);
                     }
 
-                    SQLContainer update =  (SQLContainer)studentTable.getContainerDataSource();
+                    SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
                     update.refresh();
 
                     Notification.show("Студент удален", Type.TRAY_NOTIFICATION);
