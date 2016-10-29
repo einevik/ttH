@@ -10,7 +10,7 @@ import com.HT.testtask.MainUI;
 
 class AddWindow extends Window {
     public AddWindow() {
-        super("Добавить студента"); // Set window caption
+        super("Добавить студента");
         center();
 
         MainUI mainUI = new MainUI();

@@ -2,6 +2,7 @@ package com.HT.testtask;
 
 import com.HT.testtask.DAO.Connect;
 import com.HT.testtask.DAO.StudensDAO;
+import com.HT.testtask.AddWindow;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -33,7 +34,7 @@ public class MainUI extends UI {
     protected void init(VaadinRequest request) {
 
         StudensDAO studensDAO = new StudensDAO();
-        Connect connect = new Connect();
+        AddWindow addWindow = new AddWindow();
 
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
@@ -56,19 +57,17 @@ public class MainUI extends UI {
         studentTable.setSelectable(true);
 //        studentTable.setEditable(true);
 
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); // ("dd MMM yyyy")
-        studentTable.addGeneratedColumn("DATE", new Table.ColumnGenerator() {
 
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-
-                Item item = source.getItem(itemId);
-                Property<Date> prop = item.getItemProperty(columnId);
-                Date date = (Date) prop.getValue();
-                return new Label(df.format(date));
-
-            }
-        });
+//        DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); // ("dd MMM yyyy")
+//        studentTable.addGeneratedColumn("DATE", new Table.ColumnGenerator() {
+//            @Override
+//            public Object generateCell(Table source, Object itemId, Object columnId) {
+//                Item item = source.getItem(itemId);
+//                Property<Date> prop = item.getItemProperty(columnId);
+//                Date date = (Date) prop.getValue();
+//                return new Label(df.format(date));
+//            }
+//        });
 
         Button add = new Button("Добавить");
         Button edit = new Button("Изменить");
@@ -83,13 +82,22 @@ public class MainUI extends UI {
             }
         });
 
+
         addSub.addCloseListener(new Window.CloseListener() {
             @Override
-            public void windowClose(final Window.CloseEvent e) {
+            public void windowClose(Window.CloseEvent closeEvent) {
                 SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
                 update.refresh();
             }
         });
+
+//        addSub.addCloseListener(new Window.CloseListener() {
+//            @Override
+//            public void windowClose(ClickEvent clickEvent) {
+//                SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+//                update.refresh();
+//            }
+//        });
 
         edit.addClickListener(new Button.ClickListener() {
             @Override
