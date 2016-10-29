@@ -1,20 +1,19 @@
 package com.HT.testtask;
 
+import com.HT.testtask.DAO.Connect;
 import com.HT.testtask.DAO.StudensDAO;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
-import com.vaadin.data.Container;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
-import com.vaadin.data.util.sqlcontainer.query.FreeformQuery;
-import com.vaadin.data.util.sqlcontainer.query.TableQuery;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
-import com.HT.testtask.DAO.Connect;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 @Title("Main UI")
@@ -71,14 +70,46 @@ public class MainUI extends UI {
         });
 
 
+        delete.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                Object rowId = studentTable.getValue();
+                if (rowId != null) {
+
+                    Connection conn = null;
+                    try {
+                        conn = connect.connectionPool.reserveConnection();
+                        try (Statement statement = conn.createStatement()) {
+                            statement
+                                    .executeUpdate("DELETE FROM StudentTable WHERE ID = 2");
+                            statement.close();
+                        }
+                        conn.commit();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        connect.connectionPool.releaseConnection(conn);
+                    }
+
+                    SQLContainer update =  (SQLContainer)studentTable.getContainerDataSource();
+                    update.refresh();
+
+                    Notification.show("Удалено", Type.TRAY_NOTIFICATION);
+                } else {
+                    Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);
+                }
+            }
+        });
+
 //        delete.addClickListener(new Button.ClickListener() {
 //            @Override
 //            public void buttonClick(ClickEvent clickEvent) {
 //                Object rowId = studentTable.getValue();
 //                if (rowId != null) {
 //                    try {
-//                        sTable.buildContainer().removeItem(rowId);
-//
+//                        SQLContainer container = new SQLContainer(new TableQuery("StudentTable", connect.connectionPool));
+//                        container.removeItem();
+//                        container.commit();
 //                    } catch (SQLException e) {
 //                        e.printStackTrace();
 //                    }
@@ -88,25 +119,6 @@ public class MainUI extends UI {
 //                }
 //            }
 //        });
-
-        delete.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                Object rowId = studentTable.getValue();
-                if (rowId != null) {
-                    try {
-                        SQLContainer container = new SQLContainer(new TableQuery("StudentTable", connect.connectionPool));
-                        container.removeItem(container.firstItemId());
-                        container.commit();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    Notification.show("Удалено", Type.TRAY_NOTIFICATION);
-                } else {
-                    Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);
-                }
-            }
-        });
 
         vLayout.addComponent(studentTable);
         vLayout.addComponent(hLayout);
