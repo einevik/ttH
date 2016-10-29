@@ -5,6 +5,7 @@ import com.HT.testtask.DAO.StudensDAO;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
+import com.vaadin.data.util.sqlcontainer.query.TableQuery;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -12,6 +13,7 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -47,6 +49,7 @@ public class MainUI extends UI {
 
         studentTable.setPageLength(10);
         studentTable.setSelectable(true);
+//        studentTable.setEditable(true);
 
         Button add = new Button("Добавить");
         Button edit = new Button("Изменить");
@@ -75,13 +78,12 @@ public class MainUI extends UI {
             public void buttonClick(ClickEvent clickEvent) {
                 Object rowId = studentTable.getValue();
                 if (rowId != null) {
-
                     Connection conn = null;
                     try {
                         conn = connect.connectionPool.reserveConnection();
-                        try (Statement statement = conn.createStatement()) {
-                            statement
-                                    .executeUpdate("DELETE FROM StudentTable WHERE ID = 2");
+                        try (PreparedStatement statement = conn.prepareStatement("DELETE FROM StudentTable WHERE ID = ?")) {
+                            statement.setInt(1,2);
+                            statement.executeUpdate();
                             statement.close();
                         }
                         conn.commit();
@@ -94,7 +96,7 @@ public class MainUI extends UI {
                     SQLContainer update =  (SQLContainer)studentTable.getContainerDataSource();
                     update.refresh();
 
-                    Notification.show("Удалено", Type.TRAY_NOTIFICATION);
+                    Notification.show("Студент удален", Type.TRAY_NOTIFICATION);
                 } else {
                     Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);
                 }
@@ -108,7 +110,7 @@ public class MainUI extends UI {
 //                if (rowId != null) {
 //                    try {
 //                        SQLContainer container = new SQLContainer(new TableQuery("StudentTable", connect.connectionPool));
-//                        container.removeItem();
+//                        container.removeItem("ID");
 //                        container.commit();
 //                    } catch (SQLException e) {
 //                        e.printStackTrace();
