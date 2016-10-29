@@ -3,10 +3,9 @@ package com.HT.testtask;
 import com.HT.testtask.DAO.StudensDAO;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
-import com.vaadin.data.util.sqlcontainer.RowId;
+import com.vaadin.data.Container;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
-import com.vaadin.data.util.sqlcontainer.connection.JDBCConnectionPool;
-import com.vaadin.data.util.sqlcontainer.connection.SimpleJDBCConnectionPool;
+import com.vaadin.data.util.sqlcontainer.query.FreeformQuery;
 import com.vaadin.data.util.sqlcontainer.query.TableQuery;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
@@ -31,6 +30,8 @@ public class MainUI extends UI {
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
         vLayout.setMargin(true);
+
+        TextField tstTXT = new TextField("Test");
 
         Table studentTable = new Table();
         try {
@@ -94,20 +95,18 @@ public class MainUI extends UI {
                 Object rowId = studentTable.getValue();
                 if (rowId != null) {
                     try {
-                        SQLContainer deleteContainer = new SQLContainer(new TableQuery("StudentTable", connect.connectionPool ));
-                        deleteContainer.removeItem(rowId);
-                        deleteContainer.commit();
+                        SQLContainer container = new SQLContainer(new TableQuery("StudentTable", connect.connectionPool));
+                        container.removeItem(container.firstItemId());
+                        container.commit();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-
                     Notification.show("Удалено", Type.TRAY_NOTIFICATION);
                 } else {
                     Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);
                 }
             }
         });
-
 
         vLayout.addComponent(studentTable);
         vLayout.addComponent(hLayout);
