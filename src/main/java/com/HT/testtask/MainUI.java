@@ -2,6 +2,7 @@ package com.HT.testtask;
 
 import com.HT.testtask.DAO.Connect;
 import com.HT.testtask.DAO.StudensDAO;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Item;
@@ -31,7 +32,7 @@ public class MainUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
 
-        StudensDAO sTable = new StudensDAO();
+        StudensDAO studensDAO = new StudensDAO();
         Connect connect = new Connect();
 
         VerticalLayout vLayout = new VerticalLayout();
@@ -40,7 +41,7 @@ public class MainUI extends UI {
 
         Table studentTable = new Table();
         try {
-            studentTable.setContainerDataSource(sTable.buildContainer());
+            studentTable.setContainerDataSource(studensDAO.buildContainer());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -90,69 +91,21 @@ public class MainUI extends UI {
             }
         });
 
-//        studentTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
-//            @Override
-//            public void itemClick(ItemClickEvent event) {
-//                //Manage collection and manually fetch property of table
-//                Object tableValue = event.getItem().getItemProperty("ID").getValue();
-//                if (tableValue!=null){
-//                Notification.show("Студент удален", Type.TRAY_NOTIFICATION);}
-//                else{Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);}
-//            }
-//        });
-
         delete.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-
                 Object rowId = studentTable.getValue();
                 if (rowId!=null) {
-
-                    Connection conn = null;
                     int id = (int)studentTable.getContainerProperty(rowId, "ID").getValue();
-
-                    try {
-                        conn = connect.connectionPool.reserveConnection();
-                        try (PreparedStatement statement = conn.prepareStatement("DELETE FROM StudentTable WHERE ID = ?")) {
-                            statement.setObject(1, id);
-                            statement.executeUpdate();
-                            statement.close();
-                        }
-                        conn.commit();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    } finally {
-                        connect.connectionPool.releaseConnection(conn);
-                    }
-
+                    studensDAO.Delete(id);
                     SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
                     update.refresh();
-
                     Notification.show("Студент удален", Type.TRAY_NOTIFICATION);
                 } else {
                     Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);
                 }
             }
         });
-
-//        delete.addClickListener(new Button.ClickListener() {
-//            @Override
-//            public void buttonClick(ClickEvent clickEvent) {
-//                Object rowId = studentTable.getValue();
-//                if (rowId != null) {
-//                    try {
-//                        SQLContainer container = new SQLContainer(new TableQuery("StudentTable", connect.connectionPool));
-//                        container.removeItem("ID");
-//                        container.commit();
-//                    } catch (SQLException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Notification.show("Удалено", Type.TRAY_NOTIFICATION);
-//                } else {
-//                    Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);
-//                }
-//            }
-//        });
 
         vLayout.addComponent(studentTable);
         vLayout.addComponent(hLayout);

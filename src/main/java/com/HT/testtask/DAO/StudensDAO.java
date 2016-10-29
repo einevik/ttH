@@ -10,7 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.HT.testtask.MainUI;
+
 public class StudensDAO {
+
+    MainUI mainUI = new MainUI();
 
     public Container buildContainer() throws SQLException {
         Connect connect = new Connect();
@@ -62,11 +66,12 @@ public class StudensDAO {
         }
     }
 
-    public void Delete() {
-        Connection conn = null;
+    public void Delete(int id) {
 
         Connection conn = null;
-        int id = (int)studentTable.getContainerProperty(rowId, "ID").getValue();
+        Connect connect = new Connect();
+
+        //int id = (int)mainUI.studentTable.getContainerProperty(rowId, "ID").getValue();
 
         try {
             conn = connect.connectionPool.reserveConnection();
@@ -81,6 +86,5 @@ public class StudensDAO {
         } finally {
             connect.connectionPool.releaseConnection(conn);
         }
-
     }
 }
