@@ -52,18 +52,11 @@ class AddWindow extends Window {
         Button ok = new Button("OK");
         ok.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-//                String s = (String) surname.getDescription()
-//                        .getContainerProperty(rowId, "ID").getValue();
-//                int id = (int)studentTable.getContainerProperty(rowId, "ID").getValue();
-                String s=surname.getValue().toString();
-                System.out.println(s);
-                studensDAO.Add(s);
-//                mainUI.init();
-//                SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
-//                update.refresh();
-//                studentTable.setValue(null);
-                Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
-                close(); // Close the sub-window
+                if (!surname.getValue().equals("")) {
+                    studensDAO.Add(surname.getValue().toString());
+                    Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
+                    close(); // Close the sub-window
+                } else {Notification.show("Пустые поля", Notification.Type.TRAY_NOTIFICATION);}
             }
         });
         hLayout.addComponent(ok);

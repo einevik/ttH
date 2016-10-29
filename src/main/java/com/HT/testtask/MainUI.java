@@ -74,14 +74,22 @@ public class MainUI extends UI {
         Button edit = new Button("Изменить");
         Button delete = new Button("Удалить");
 
+        AddWindow addSub = new AddWindow();
+
         add.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                AddWindow addSub = new AddWindow();
                 UI.getCurrent().addWindow(addSub);
             }
         });
 
+        addSub.addCloseListener(new Window.CloseListener() {
+            @Override
+            public void windowClose(final Window.CloseEvent e) {
+                SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+                update.refresh();
+            }
+        });
 
         edit.addClickListener(new Button.ClickListener() {
             @Override
@@ -92,10 +100,6 @@ public class MainUI extends UI {
                     studentTable.setValue(null);
                     EditWindow editSub = new EditWindow();
                     UI.getCurrent().addWindow(editSub);
-
-//                    studensDAO.Delete(id);
-//                    SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
-//                    update.refresh();
                     Notification.show("Студент удален", Type.TRAY_NOTIFICATION);
                 } else {
                     Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);
