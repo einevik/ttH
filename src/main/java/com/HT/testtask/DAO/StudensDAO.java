@@ -6,6 +6,7 @@ import com.vaadin.data.util.sqlcontainer.connection.JDBCConnectionPool;
 import com.vaadin.data.util.sqlcontainer.query.FreeformQuery;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -59,5 +60,27 @@ public class StudensDAO {
         } finally {
             connectionPool.releaseConnection(conn);
         }
+    }
+
+    public void Delete() {
+        Connection conn = null;
+
+        Connection conn = null;
+        int id = (int)studentTable.getContainerProperty(rowId, "ID").getValue();
+
+        try {
+            conn = connect.connectionPool.reserveConnection();
+            try (PreparedStatement statement = conn.prepareStatement("DELETE FROM StudentTable WHERE ID = ?")) {
+                statement.setObject(1, id);
+                statement.executeUpdate();
+                statement.close();
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connect.connectionPool.releaseConnection(conn);
+        }
+
     }
 }
