@@ -1,16 +1,20 @@
 package com.HT.testtask;
 
+import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
+import com.HT.testtask.DAO.StudensDAO;
+import com.HT.testtask.MainUI;
 
 class AddWindow extends Window {
     public AddWindow() {
         super("Добавить студента"); // Set window caption
         center();
 
-        // Some basic vLayout for the window
+        MainUI mainUI = new MainUI();
+        StudensDAO studensDAO = new StudensDAO();
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
         HorizontalLayout clearLayout = new HorizontalLayout();
@@ -48,6 +52,17 @@ class AddWindow extends Window {
         Button ok = new Button("OK");
         ok.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
+//                String s = (String) surname.getDescription()
+//                        .getContainerProperty(rowId, "ID").getValue();
+//                int id = (int)studentTable.getContainerProperty(rowId, "ID").getValue();
+                String s=surname.getValue().toString();
+                System.out.println(s);
+                studensDAO.Add(s);
+//                mainUI.init();
+//                SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+//                update.refresh();
+//                studentTable.setValue(null);
+                Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
                 close(); // Close the sub-window
             }
         });

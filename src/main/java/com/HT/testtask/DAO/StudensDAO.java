@@ -80,6 +80,24 @@ public class StudensDAO {
         }
     }
 
+    public void Add (String surnameADD) {
+        Connection conn = null;
+        Connect connect = new Connect();
+        try {
+            conn = connect.connectionPool.reserveConnection();
+            try (PreparedStatement statement = conn.prepareStatement("INSERT INTO StudentTable (surname) VALUES (?)")) {
+                statement.setObject(1, surnameADD);
+                statement.executeUpdate();
+                statement.close();
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connect.connectionPool.releaseConnection(conn);
+        }
+    }
+
     public void Edit (int id) {
         Connection conn = null;
         Connect connect = new Connect();
