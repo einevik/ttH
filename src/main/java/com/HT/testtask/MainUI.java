@@ -7,7 +7,6 @@ import com.vaadin.annotations.Title;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
-import com.vaadin.data.util.sqlcontainer.query.TableQuery;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -51,7 +50,7 @@ public class MainUI extends UI {
         studentTable.setSelectable(true);
 //        studentTable.setEditable(true);
 
-        DateFormat df = new SimpleDateFormat("dd MMM yyyy");
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); // ("dd MMM yyyy")
         studentTable.addGeneratedColumn("DATE", new Table.ColumnGenerator() {
 
             @Override
