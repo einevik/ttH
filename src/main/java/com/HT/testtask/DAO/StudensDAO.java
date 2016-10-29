@@ -80,13 +80,17 @@ public class StudensDAO {
         }
     }
 
-    public void Add (String surnameADD) {
+    public void Add (String surnameADD, String nameADD, String patronymicADD, String numGroupADD, String dateADD) {
         Connection conn = null;
         Connect connect = new Connect();
         try {
             conn = connect.connectionPool.reserveConnection();
-            try (PreparedStatement statement = conn.prepareStatement("INSERT INTO StudentTable (surname) VALUES (?)")) {
+            try (PreparedStatement statement = conn.prepareStatement("INSERT INTO StudentTable (surname, name, patronymic, numGroup, date) VALUES (?,?,?,?,?)")) {
                 statement.setObject(1, surnameADD);
+                statement.setObject(2, nameADD);
+                statement.setObject(3, patronymicADD);
+                statement.setObject(4, numGroupADD);
+                statement.setObject(5, dateADD);
                 statement.executeUpdate();
                 statement.close();
             }

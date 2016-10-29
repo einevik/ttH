@@ -53,7 +53,13 @@ class AddWindow extends Window {
         ok.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 if (!surname.getValue().equals("")) {
-                    studensDAO.Add(surname.getValue().toString());
+
+                    studensDAO.Add(surname.getValue().toString(),
+                            name.getValue().toString(),
+                            patronymic.getValue().toString(),
+                            numGroup.getValue().toString(),
+                            date.getValue().toString());
+
                     Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
                     close(); // Close the sub-window
                 } else {Notification.show("Пустые поля", Notification.Type.TRAY_NOTIFICATION);}
