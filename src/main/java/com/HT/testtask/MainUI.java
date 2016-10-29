@@ -32,8 +32,6 @@ public class MainUI extends UI {
         HorizontalLayout hLayout = new HorizontalLayout();
         vLayout.setMargin(true);
 
-        TextField tstTXT = new TextField("Test");
-
         Table studentTable = new Table();
         try {
             studentTable.setContainerDataSource(sTable.buildContainer());
@@ -44,6 +42,7 @@ public class MainUI extends UI {
         studentTable.setColumnHeader("NAME", "Имя");
         studentTable.setColumnHeader("PATRONYMIC", "Отчество");
         studentTable.setColumnHeader("NUMGROUP", "Группа");
+        studentTable.setColumnAlignment ( "NUMGROUP",Table.ALIGN_CENTER);
         studentTable.setColumnHeader("DATE", "Дата рождения");
 
         studentTable.setPageLength(10);
