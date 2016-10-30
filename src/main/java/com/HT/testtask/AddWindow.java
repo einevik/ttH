@@ -1,6 +1,7 @@
 package com.HT.testtask;
 
 import com.HT.testtask.DAO.StudensDAO;
+import com.vaadin.data.Property;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -49,9 +50,32 @@ class AddWindow extends Window {
         name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         numGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
-        day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])", "с 01 до 31"));
+
+//        if (month.getValue().equals("01")||month.getValue().equals("03")||month.getValue().equals("05")||month.getValue().equals("07")
+//                ||month.getValue().equals("08")||month.getValue().equals("10")||month.getValue().equals("12")||month.getValue().equals("")){
+//            day.addValidator(new RegexpValidator("(0[1-9]|[10-31])", "с 01 до 31"));System.out.println("if"+month.getValue());
+//        } else if (!month.getValue().equals("02")){System.out.println("els if");
+//            day.addValidator(new RegexpValidator("(0[1-9]|[10-30])", "с 01 до 30"));
+//        }
+//        day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])", "с 01 до 31"));
         month.addValidator(new RegexpValidator("(0[1-9]|1[012])", "с 01 до 12"));
         year.addValidator(new RegexpValidator("(19|20)\\d\\d", "с 1900 до 2099"));
+
+
+        month.addListener(new Property.ValueChangeListener() {
+            public void valueChange(Property.ValueChangeEvent event) {
+                if (month.getValue().equals("01") || month.getValue().equals("03") || month.getValue().equals("05") || month.getValue().equals("07")
+                        || month.getValue().equals("08") || month.getValue().equals("10") || month.getValue().equals("12") || month.getValue().equals("")) {
+                    day.removeAllValidators();
+                    day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])", "с 01 до 31"));
+                    System.out.println("if" + month.getValue());
+                } else if (!month.getValue().equals("02")) {
+                    System.out.println("els if");
+                    day.removeAllValidators();
+                    day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[0])", "с 01 до 30"));
+                }System.out.println(month.getValue());
+            }
+        });
 
         vLayout.addComponent(surname);
         vLayout.addComponent(name);
