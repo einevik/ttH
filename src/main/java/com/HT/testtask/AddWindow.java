@@ -51,15 +51,44 @@ class AddWindow extends Window {
         patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         numGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
 
-//        if (month.getValue().equals("01")||month.getValue().equals("03")||month.getValue().equals("05")||month.getValue().equals("07")
-//                ||month.getValue().equals("08")||month.getValue().equals("10")||month.getValue().equals("12")||month.getValue().equals("")){
-//            day.addValidator(new RegexpValidator("(0[1-9]|[10-31])", "с 01 до 31"));System.out.println("if"+month.getValue());
-//        } else if (!month.getValue().equals("02")){System.out.println("els if");
-//            day.addValidator(new RegexpValidator("(0[1-9]|[10-30])", "с 01 до 30"));
-//        }
-//        day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])", "с 01 до 31"));
         month.addValidator(new RegexpValidator("(0[1-9]|1[012])", "с 01 до 12"));
         year.addValidator(new RegexpValidator("(19|20)\\d\\d", "с 1900 до 2099"));
+
+        year.addListener(new Property.ValueChangeListener() {
+            public void valueChange(Property.ValueChangeEvent event) {
+                if (month.getValue().equals("02")) {
+                    int intYear;
+                    String sYear = year.getValue();
+                    try {
+                        intYear = Integer.parseInt(sYear);
+                        if (intYear % 4 == 0) {
+                            if (intYear % 100 == 0) {
+                                if (intYear % 400 == 0) {
+                                    // Високосный год
+                                    day.removeAllValidators();
+                                    day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9])", "с 01 до 30"));
+                                    return;
+                                }
+                                // Невисокосный год
+                                day.removeAllValidators();
+                                day.addValidator(new RegexpValidator("(0[1-9]|[12][0-8])", "с 01 до 30"));
+                                return;
+                            }
+                            // Високосный год
+                            day.removeAllValidators();
+                            day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9])", "с 01 до 30"));
+                            return;
+                        } else {
+                            // Невисокосный год
+                            day.removeAllValidators();
+                            day.addValidator(new RegexpValidator("(0[1-9]|[12][0-8])", "с 01 до 30"));
+                            return;
+                        }
+                    } catch (NumberFormatException e) {
+                    }
+                }
+            }
+        });
 
 
         month.addListener(new Property.ValueChangeListener() {
@@ -68,12 +97,42 @@ class AddWindow extends Window {
                         || month.getValue().equals("08") || month.getValue().equals("10") || month.getValue().equals("12") || month.getValue().equals("")) {
                     day.removeAllValidators();
                     day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])", "с 01 до 31"));
-                    System.out.println("if" + month.getValue());
                 } else if (!month.getValue().equals("02")) {
-                    System.out.println("els if");
                     day.removeAllValidators();
                     day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[0])", "с 01 до 30"));
-                }System.out.println(month.getValue());
+                }else if (month.getValue().equals("02")) {
+                    if (month.getValue().equals("02")) {
+                        int intYear;
+                        String sYear = year.getValue();
+                        try {
+                            intYear = Integer.parseInt(sYear);
+                            if (intYear % 4 == 0) {
+                                if (intYear % 100 == 0) {
+                                    if (intYear % 400 == 0) {
+                                        // Високосный год
+                                        day.removeAllValidators();
+                                        day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9])", "с 01 до 30"));
+                                        return;
+                                    }
+                                    // Невисокосный год
+                                    day.removeAllValidators();
+                                    day.addValidator(new RegexpValidator("(0[1-9]|[12][0-8])", "с 01 до 30"));
+                                    return;
+                                }
+                                // Високосный год
+                                day.removeAllValidators();
+                                day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9])", "с 01 до 30"));
+                                return;
+                            } else {
+                                // Невисокосный год
+                                day.removeAllValidators();
+                                day.addValidator(new RegexpValidator("(0[1-9]|[12][0-8])", "с 01 до 30"));
+                                return;
+                            }
+                        } catch (NumberFormatException e) {
+                        }
+                    }
+                }
             }
         });
 
@@ -150,6 +209,14 @@ class AddWindow extends Window {
         cancel.setWidth(String.valueOf(130));
         cancel.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
+                surname.setValue("");
+                name.setValue("");
+                patronymic.setValue("");
+                numGroup.setValue("");
+                year.setValue("");
+                month.setValue("");
+                day.setValue("");
+
                 close();
             }
         });
