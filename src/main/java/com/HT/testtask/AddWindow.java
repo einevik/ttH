@@ -13,30 +13,62 @@ class AddWindow extends Window {
         MainUI mainUI = new MainUI();
         StudensDAO studensDAO = new StudensDAO();
         VerticalLayout vLayout = new VerticalLayout();
-        HorizontalLayout hLayout = new HorizontalLayout();
+        HorizontalLayout hLayoutDate = new HorizontalLayout();
+        HorizontalLayout hLayoutButton = new HorizontalLayout();
         HorizontalLayout clearLayout = new HorizontalLayout();
+        VerticalLayout clearVertical1 = new VerticalLayout();
+        VerticalLayout clearVertical2 = new VerticalLayout();
+        VerticalLayout vLayoutLabel = new VerticalLayout();
+        VerticalLayout vLayoutDate = new VerticalLayout();
 
+        Label labelDate = new Label("Дата рождения");
         TextField surname = new TextField("Фамилия");
         TextField name = new TextField("Имя");
         TextField patronymic = new TextField("Отчество");
         TextField numGroup = new TextField("Группа");
-        TextField date = new TextField("Дата Рождения");
-        TextField
+
+        clearVertical1.setWidth(String.valueOf(15));
+        clearVertical2.setWidth(String.valueOf(15));
+//        vLayoutLabel.setHeight(String.valueOf(15));
+        vLayoutDate.setHeight(String.valueOf(10));
+        clearLayout.setHeight(String.valueOf(55));
+
+        TextField day = new TextField("");
+        day.setWidth(String.valueOf(42));
+        day.setInputPrompt("дд");
+
+        TextField month = new TextField("");
+        month.setWidth(String.valueOf(43));
+        month.setInputPrompt("мм");
+
+        TextField year = new TextField("");
+        year.setWidth(String.valueOf(70));
+        year.setInputPrompt("гггг");
 
         surname.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         numGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
-        date.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d", "Разделители: . / -"));
-        date.setInputPrompt("дд.мм.гггг");
+//        date.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d", "Разделители: . / -"));
+//        date.setInputPrompt("дд.мм.гггг");
 
         vLayout.addComponent(surname);
         vLayout.addComponent(name);
         vLayout.addComponent(patronymic);
         vLayout.addComponent(numGroup);
-        vLayout.addComponent(date);
+        vLayout.addComponent(vLayoutDate);
+        vLayoutDate.addComponent(labelDate);
+        vLayoutDate.addComponent(hLayoutDate);
+
         vLayout.addComponent(clearLayout);
-        vLayout.addComponent(hLayout);
+        vLayout.addComponent(hLayoutButton);
+
+
+        hLayoutDate.addComponent(day);
+        hLayoutDate.addComponent(clearVertical1);
+        hLayoutDate.addComponent(month);
+        hLayoutDate.addComponent(clearVertical2);
+        hLayoutDate.addComponent(year);
 
         vLayout.setHeight("");
         vLayout.setWidth("");
@@ -48,33 +80,33 @@ class AddWindow extends Window {
         setContent(vLayout);
 
         Button ok = new Button("OK");
-        ok.addClickListener(new Button.ClickListener() {
-            public void buttonClick(ClickEvent event) {
-                if (!surname.getValue().equals("")
-                        & !name.getValue().equals("")
-                        & !patronymic.getValue().equals("")
-                        & !numGroup.getValue().equals("")
-                        & surname.isValid()==true
-                        & name.isValid()==true
-                        & patronymic.isValid()==true
-                        & numGroup.isValid()==true
-                        & date.isValid()==true)
-                {
-
-                    studensDAO.Add(surname.getValue().toString(),
-                            name.getValue().toString(),
-                            patronymic.getValue().toString(),
-                            numGroup.getValue().toString(),
-                            date.getValue().toString());
-
-                    Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
-                    close(); // Close the sub-window
-                } else {
-                    Notification.show("Неверный формат или пустые поля", Notification.Type.TRAY_NOTIFICATION);
-                }
-            }
-        });
-        hLayout.addComponent(ok);
+//        ok.addClickListener(new Button.ClickListener() {
+//            public void buttonClick(ClickEvent event) {
+//                if (!surname.getValue().equals("")
+//                        & !name.getValue().equals("")
+//                        & !patronymic.getValue().equals("")
+//                        & !numGroup.getValue().equals("")
+//                        & surname.isValid()==true
+//                        & name.isValid()==true
+//                        & patronymic.isValid()==true
+//                        & numGroup.isValid()==true
+//                        & date.isValid()==true)
+//                {
+//
+//                    studensDAO.Add(surname.getValue().toString(),
+//                            name.getValue().toString(),
+//                            patronymic.getValue().toString(),
+//                            numGroup.getValue().toString(),
+//                            date.getValue().toString());
+//
+//                    Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
+//                    close(); // Close the sub-window
+//                } else {
+//                    Notification.show("Неверный формат или пустые поля", Notification.Type.TRAY_NOTIFICATION);
+//                }
+//            }
+//        });
+        hLayoutButton.addComponent(ok);
 
         Button cancel = new Button("Отменить");
         cancel.setWidth(String.valueOf(130));
@@ -83,7 +115,7 @@ class AddWindow extends Window {
                 close();
             }
         });
-        hLayout.addComponent(cancel);
+        hLayoutButton.addComponent(cancel);
 
     }
 }
