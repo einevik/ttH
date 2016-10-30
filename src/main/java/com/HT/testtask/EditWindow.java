@@ -12,17 +12,17 @@ class EditWindow extends Window {
         super("Изменить данные");
         center();
 
-        MainUI mainUI = new MainUI();
         StudensDAO studensDAO = new StudensDAO();
-
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayoutDate = new HorizontalLayout();
         HorizontalLayout hLayoutButton = new HorizontalLayout();
         HorizontalLayout clearLayout = new HorizontalLayout();
         VerticalLayout clearVertical1 = new VerticalLayout();
         VerticalLayout clearVertical2 = new VerticalLayout();
-        VerticalLayout vLayoutLabel = new VerticalLayout();
         VerticalLayout vLayoutDate = new VerticalLayout();
+
+        clearVertical1.setWidth(String.valueOf(15));
+        clearVertical2.setWidth(String.valueOf(15));
 
         Label labelDate = new Label("Дата рождения");
         TextField surname = new TextField("Фамилия");
@@ -30,20 +30,16 @@ class EditWindow extends Window {
         TextField patronymic = new TextField("Отчество");
         TextField numGroup = new TextField("Группа");
 
-        clearVertical1.setWidth(String.valueOf(15));
-        clearVertical2.setWidth(String.valueOf(15));
-//        vLayoutLabel.setHeight(String.valueOf(15));
-//        vLayoutDate.setHeight(String.valueOf(10));
-//        clearLayout.setHeight(String.valueOf(55));
+        Button ok = new Button("OK");
+        Button cancel = new Button("Отменить");
+        cancel.setWidth(String.valueOf(130));
 
         TextField day = new TextField("");
         day.setWidth(String.valueOf(42));
         day.setInputPrompt("дд");
-
         TextField month = new TextField("");
         month.setWidth(String.valueOf(43));
         month.setInputPrompt("мм");
-
         TextField year = new TextField("");
         year.setWidth(String.valueOf(70));
         year.setInputPrompt("гггг");
@@ -52,9 +48,32 @@ class EditWindow extends Window {
         name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         numGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
-
         month.addValidator(new RegexpValidator("(0[1-9]|1[012])", "с 01 до 12"));
         year.addValidator(new RegexpValidator("(19|20)\\d\\d", "с 1900 до 2099"));
+
+        vLayout.addComponent(surname);
+        vLayout.addComponent(name);
+        vLayout.addComponent(patronymic);
+        vLayout.addComponent(numGroup);
+        vLayout.addComponent(vLayoutDate);
+        vLayoutDate.addComponent(labelDate);
+        vLayoutDate.addComponent(hLayoutDate);
+        vLayout.addComponent(clearLayout);
+        vLayout.addComponent(hLayoutButton);
+        hLayoutDate.addComponent(day);
+        hLayoutDate.addComponent(clearVertical1);
+        hLayoutDate.addComponent(month);
+        hLayoutDate.addComponent(clearVertical2);
+        hLayoutDate.addComponent(year);
+        vLayout.setHeight("");
+        vLayout.setWidth("");
+        vLayout.setMargin(true);
+        setModal(true);
+        setClosable(false);
+        setResizable(false);
+        setContent(vLayout);
+        hLayoutButton.addComponent(ok);
+        hLayoutButton.addComponent(cancel);
 
         year.addListener(new Property.ValueChangeListener() {
             public void valueChange(Property.ValueChangeEvent event) {
@@ -91,7 +110,6 @@ class EditWindow extends Window {
                 }
             }
         });
-
 
         month.addListener(new Property.ValueChangeListener() {
             public void valueChange(Property.ValueChangeEvent event) {
@@ -138,43 +156,6 @@ class EditWindow extends Window {
             }
         });
 
-        vLayout.addComponent(surname);
-        vLayout.addComponent(name);
-        vLayout.addComponent(patronymic);
-        vLayout.addComponent(numGroup);
-        vLayout.addComponent(vLayoutDate);
-        vLayoutDate.addComponent(labelDate);
-        vLayoutDate.addComponent(hLayoutDate);
-
-        vLayout.addComponent(clearLayout);
-        vLayout.addComponent(hLayoutButton);
-
-        hLayoutDate.addComponent(day);
-        hLayoutDate.addComponent(clearVertical1);
-        hLayoutDate.addComponent(month);
-        hLayoutDate.addComponent(clearVertical2);
-        hLayoutDate.addComponent(year);
-
-        vLayout.setHeight("");
-        vLayout.setWidth("");
-        vLayout.setMargin(true);
-
-        setModal(true);
-        setClosable(false);
-        setResizable(false);
-        setContent(vLayout);
-
-
-//        surname.setValue(editSurname);
-//        System.out.println(editSurname);
-//        name.setValue("");
-//        patronymic.setValue("");
-//        numGroup.setValue("");
-//        year.setValue("");
-//        month.setValue("");
-//        day.setValue("");
-
-        Button ok = new Button("OK");
         ok.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 if (!surname.getValue().equals("")
@@ -199,7 +180,6 @@ class EditWindow extends Window {
                                     patronymic.getValue().toString(),
                                     numGroup.getValue().toString(),
                                     date);
-
                     surname.setValue("");
                     name.setValue("");
                     patronymic.setValue("");
@@ -207,18 +187,13 @@ class EditWindow extends Window {
                     year.setValue("");
                     month.setValue("");
                     day.setValue("");
-
                     Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
-                    close(); // Close the sub-window
+                    close();
                 } else {
                     Notification.show("Неверный формат или пустые поля", Notification.Type.TRAY_NOTIFICATION);
                 }
             }
         });
-        hLayoutButton.addComponent(ok);
-
-        Button cancel = new Button("Отменить");
-        cancel.setWidth(String.valueOf(130));
         cancel.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 surname.setValue("");
@@ -228,12 +203,9 @@ class EditWindow extends Window {
                 year.setValue("");
                 month.setValue("");
                 day.setValue("");
-
                 close();
             }
         });
-        hLayoutButton.addComponent(cancel);
-
     }
 
 }
