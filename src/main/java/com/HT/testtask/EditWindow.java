@@ -7,12 +7,14 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
 class EditWindow extends Window {
+
     public EditWindow() {
         super("Изменить данные");
         center();
 
         MainUI mainUI = new MainUI();
         StudensDAO studensDAO = new StudensDAO();
+
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayoutDate = new HorizontalLayout();
         HorizontalLayout hLayoutButton = new HorizontalLayout();
@@ -162,6 +164,16 @@ class EditWindow extends Window {
         setResizable(false);
         setContent(vLayout);
 
+
+//        surname.setValue(editSurname);
+//        System.out.println(editSurname);
+//        name.setValue("");
+//        patronymic.setValue("");
+//        numGroup.setValue("");
+//        year.setValue("");
+//        month.setValue("");
+//        day.setValue("");
+
         Button ok = new Button("OK");
         ok.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
@@ -222,11 +234,7 @@ class EditWindow extends Window {
         });
         hLayoutButton.addComponent(cancel);
 
-
     }
 
-    public void editFromMain (int id, String surnameADD, String nameADD, String patronymicADD, int numGroupADD, Object dateADD){
-
-    }
 }
 

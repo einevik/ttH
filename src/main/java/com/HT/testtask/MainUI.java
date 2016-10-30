@@ -1,6 +1,7 @@
 package com.HT.testtask;
 
 import com.HT.testtask.DAO.StudensDAO;
+import com.HT.testtask.EditWindow;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -11,7 +12,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
-import java.sql.SQLData;
 import java.sql.SQLException;
 
 
@@ -23,7 +23,10 @@ public class MainUI extends UI {
     protected void init(VaadinRequest request) {
 
         StudensDAO studensDAO = new StudensDAO();
-        EditWindow editWindow = new EditWindow();
+        EditWindow editModel = new EditWindow();
+
+        int iTST=12;
+
 
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
@@ -91,13 +94,13 @@ public class MainUI extends UI {
                     int numGroup = (int)studentTable.getContainerProperty(rowId, "NUMGROUP").getValue();
                     Object date = studentTable.getContainerProperty(rowId, "DATE").getValue();
 
-                    editWindow.editFromMain(id, surname, name, patronymic, numGroup, date);
+//                    editModel.editSurname= (String)studentTable.getContainerProperty(rowId, "SURNAME").getValue();
 
-                    System.out.println(surname);
-                    System.out.println(name);
-                    System.out.println(patronymic);
-                    System.out.println(numGroup);
-                    System.out.println(date);
+//                    System.out.println(surname);
+//                    System.out.println(name);
+//                    System.out.println(patronymic);
+//                    System.out.println(numGroup);
+//                    System.out.println(date);
 //                    studentTable.setValue(null);
                     UI.getCurrent().addWindow(editSub);
                 } else {
