@@ -105,7 +105,14 @@ class AddWindow extends Window {
                             numGroup.getValue().toString(),
                             date);
 
-                    System.out.println(date);
+                    surname.setValue("");
+                    name.setValue("");
+                    patronymic.setValue("");
+                    numGroup.setValue("");
+                    year.setValue("");
+                    month.setValue("");
+                    day.setValue("");
+
                     Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
                     close(); // Close the sub-window
                 } else {
