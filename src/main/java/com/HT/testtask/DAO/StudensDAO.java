@@ -21,7 +21,6 @@ public class StudensDAO {
     }
 
 
-
 //    private void initDatabase(JDBCConnectionPool connectionPool) {
 //        Connection conn = null;
 //        try {
@@ -64,7 +63,7 @@ public class StudensDAO {
 //        }
 //    }
 
-    private void initDatabase (JDBCConnectionPool connectionPool) throws SQLException {
+    private void initDatabase(JDBCConnectionPool connectionPool) throws SQLException {
         Connection conn = null;
         try {
             conn = connectionPool.reserveConnection();
@@ -127,7 +126,7 @@ public class StudensDAO {
         }
     }
 
-    public void Add (String surnameADD, String nameADD, String patronymicADD, String numGroupADD, String dateADD) {
+    public void Add(String surnameADD, String nameADD, String patronymicADD, String numGroupADD, String dateADD) {
         Connection conn = null;
         Connect connect = new Connect();
         try {
@@ -149,13 +148,18 @@ public class StudensDAO {
         }
     }
 
-    public void Edit (int id) {
+    public void Edit(int id, String surnameADD, String nameADD, String patronymicADD, String numGroupADD, String dateADD) {
         Connection conn = null;
         Connect connect = new Connect();
         try {
             conn = connect.connectionPool.reserveConnection();
-            try (PreparedStatement statement = conn.prepareStatement("DELETE FROM StudentTable WHERE ID = ?")) {
-                statement.setObject(1, id);
+            try (PreparedStatement statement = conn.prepareStatement("UPDATE StudentTable SET surname=?, name=?, patronymic=?, numGroup=?, date=? WHERE id=?")) {
+                statement.setObject(1, surnameADD);
+                statement.setObject(2, nameADD);
+                statement.setObject(3, patronymicADD);
+                statement.setObject(4, numGroupADD);
+                statement.setObject(5, dateADD);
+                statement.setObject(6, id);
                 statement.executeUpdate();
                 statement.close();
             }

@@ -1,29 +1,17 @@
 package com.HT.testtask;
 
-import com.HT.testtask.DAO.Connect;
 import com.HT.testtask.DAO.StudensDAO;
-import com.HT.testtask.AddWindow;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.sqlcontainer.RowItem;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.event.SelectionEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 
 @Title("Main UI")
@@ -34,7 +22,7 @@ public class MainUI extends UI {
     protected void init(VaadinRequest request) {
 
         StudensDAO studensDAO = new StudensDAO();
-        AddWindow addWindow = new AddWindow();
+        EditWindow addWindow = new EditWindow();
 
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
@@ -74,14 +62,12 @@ public class MainUI extends UI {
         Button delete = new Button("Удалить");
 
         AddWindow addSub = new AddWindow();
-
         add.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 UI.getCurrent().addWindow(addSub);
             }
         });
-
 
         addSub.addCloseListener(new Window.CloseListener() {
             @Override
@@ -91,24 +77,20 @@ public class MainUI extends UI {
             }
         });
 
-//        addSub.addCloseListener(new Window.CloseListener() {
-//            @Override
-//            public void windowClose(ClickEvent clickEvent) {
-//                SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
-//                update.refresh();
-//            }
-//        });
-
+        EditWindow editSub = new EditWindow();
         edit.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 Object rowId = studentTable.getValue();
                 if (rowId!=null) {
                     int id = (int)studentTable.getContainerProperty(rowId, "ID").getValue();
-                    studentTable.setValue(null);
-                    EditWindow editSub = new EditWindow();
+                    String surname = (String)studentTable.getContainerProperty(rowId, "SURNAME").getValue();
+                    String name = (String)studentTable.getContainerProperty(rowId, "NAME").getValue();
+                    String patronymic = (String)studentTable.getContainerProperty(rowId, "PATRONYMIC").getValue();
+                    String numGroup = (String)studentTable.getContainerProperty(rowId, "NUMGROUP").getValue();
+                    String date = (String)studentTable.getContainerProperty(rowId, "DATE").getValue();
+//                    studentTable.setValue(null);
                     UI.getCurrent().addWindow(editSub);
-                    Notification.show("Студент удален", Type.TRAY_NOTIFICATION);
                 } else {
                     Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);
                 }
