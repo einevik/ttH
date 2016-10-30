@@ -222,6 +222,11 @@ class EditWindow extends Window {
         });
         hLayoutButton.addComponent(cancel);
 
+
+    }
+
+    public void editFromMain (int id, String surnameADD, String nameADD, String patronymicADD, int numGroupADD, Object dateADD){
+
     }
 }
 

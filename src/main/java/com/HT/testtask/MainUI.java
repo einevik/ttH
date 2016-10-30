@@ -11,6 +11,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.sql.SQLData;
 import java.sql.SQLException;
 
 
@@ -22,7 +23,7 @@ public class MainUI extends UI {
     protected void init(VaadinRequest request) {
 
         StudensDAO studensDAO = new StudensDAO();
-        EditWindow addWindow = new EditWindow();
+        EditWindow editWindow = new EditWindow();
 
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
@@ -87,8 +88,16 @@ public class MainUI extends UI {
                     String surname = (String)studentTable.getContainerProperty(rowId, "SURNAME").getValue();
                     String name = (String)studentTable.getContainerProperty(rowId, "NAME").getValue();
                     String patronymic = (String)studentTable.getContainerProperty(rowId, "PATRONYMIC").getValue();
-                    String numGroup = (String)studentTable.getContainerProperty(rowId, "NUMGROUP").getValue();
-                    String date = (String)studentTable.getContainerProperty(rowId, "DATE").getValue();
+                    int numGroup = (int)studentTable.getContainerProperty(rowId, "NUMGROUP").getValue();
+                    Object date = studentTable.getContainerProperty(rowId, "DATE").getValue();
+
+                    editWindow.editFromMain(id, surname, name, patronymic, numGroup, date);
+
+                    System.out.println(surname);
+                    System.out.println(name);
+                    System.out.println(patronymic);
+                    System.out.println(numGroup);
+                    System.out.println(date);
 //                    studentTable.setValue(null);
                     UI.getCurrent().addWindow(editSub);
                 } else {
