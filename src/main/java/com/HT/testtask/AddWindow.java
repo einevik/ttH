@@ -1,12 +1,9 @@
 package com.HT.testtask;
 
-import com.vaadin.data.util.sqlcontainer.SQLContainer;
+import com.HT.testtask.DAO.StudensDAO;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-
-import com.HT.testtask.DAO.StudensDAO;
-import com.HT.testtask.MainUI;
 
 class AddWindow extends Window {
     public AddWindow() {
@@ -24,6 +21,7 @@ class AddWindow extends Window {
         TextField patronymic = new TextField("Отчество");
         TextField numGroup = new TextField("Группа");
         TextField date = new TextField("Дата Рождения");
+        TextField
 
         surname.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
@@ -52,7 +50,16 @@ class AddWindow extends Window {
         Button ok = new Button("OK");
         ok.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                if (!surname.getValue().equals("")) {
+                if (!surname.getValue().equals("")
+                        & !name.getValue().equals("")
+                        & !patronymic.getValue().equals("")
+                        & !numGroup.getValue().equals("")
+                        & surname.isValid()==true
+                        & name.isValid()==true
+                        & patronymic.isValid()==true
+                        & numGroup.isValid()==true
+                        & date.isValid()==true)
+                {
 
                     studensDAO.Add(surname.getValue().toString(),
                             name.getValue().toString(),
@@ -62,7 +69,9 @@ class AddWindow extends Window {
 
                     Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
                     close(); // Close the sub-window
-                } else {Notification.show("Пустые поля", Notification.Type.TRAY_NOTIFICATION);}
+                } else {
+                    Notification.show("Неверный формат или пустые поля", Notification.Type.TRAY_NOTIFICATION);
+                }
             }
         });
         hLayout.addComponent(ok);
@@ -71,7 +80,7 @@ class AddWindow extends Window {
         cancel.setWidth(String.valueOf(130));
         cancel.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                close(); // Close the sub-window
+                close();
             }
         });
         hLayout.addComponent(cancel);
