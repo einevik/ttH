@@ -30,8 +30,8 @@ class AddWindow extends Window {
         clearVertical1.setWidth(String.valueOf(15));
         clearVertical2.setWidth(String.valueOf(15));
 //        vLayoutLabel.setHeight(String.valueOf(15));
-        vLayoutDate.setHeight(String.valueOf(10));
-        clearLayout.setHeight(String.valueOf(55));
+//        vLayoutDate.setHeight(String.valueOf(10));
+//        clearLayout.setHeight(String.valueOf(55));
 
         TextField day = new TextField("");
         day.setWidth(String.valueOf(42));
@@ -49,8 +49,9 @@ class AddWindow extends Window {
         name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
         numGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
-//        date.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d", "Разделители: . / -"));
-//        date.setInputPrompt("дд.мм.гггг");
+        day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[01])", "с 01 до 31"));
+        month.addValidator(new RegexpValidator("(0[1-9]|1[012])", "с 01 до 12"));
+        year.addValidator(new RegexpValidator("(19|20)\\d\\d", "с 1900 до 2099"));
 
         vLayout.addComponent(surname);
         vLayout.addComponent(name);
@@ -62,7 +63,6 @@ class AddWindow extends Window {
 
         vLayout.addComponent(clearLayout);
         vLayout.addComponent(hLayoutButton);
-
 
         hLayoutDate.addComponent(day);
         hLayoutDate.addComponent(clearVertical1);
@@ -80,32 +80,39 @@ class AddWindow extends Window {
         setContent(vLayout);
 
         Button ok = new Button("OK");
-//        ok.addClickListener(new Button.ClickListener() {
-//            public void buttonClick(ClickEvent event) {
-//                if (!surname.getValue().equals("")
-//                        & !name.getValue().equals("")
-//                        & !patronymic.getValue().equals("")
-//                        & !numGroup.getValue().equals("")
-//                        & surname.isValid()==true
-//                        & name.isValid()==true
-//                        & patronymic.isValid()==true
-//                        & numGroup.isValid()==true
-//                        & date.isValid()==true)
-//                {
-//
-//                    studensDAO.Add(surname.getValue().toString(),
-//                            name.getValue().toString(),
-//                            patronymic.getValue().toString(),
-//                            numGroup.getValue().toString(),
-//                            date.getValue().toString());
-//
-//                    Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
-//                    close(); // Close the sub-window
-//                } else {
-//                    Notification.show("Неверный формат или пустые поля", Notification.Type.TRAY_NOTIFICATION);
-//                }
-//            }
-//        });
+        ok.addClickListener(new Button.ClickListener() {
+            public void buttonClick(ClickEvent event) {
+                if (!surname.getValue().equals("")
+                        & !name.getValue().equals("")
+                        & !patronymic.getValue().equals("")
+                        & !numGroup.getValue().equals("")
+                        & !day.getValue().equals("")
+                        & !month.getValue().equals("")
+                        & !year.getValue().equals("")
+                        & surname.isValid()==true
+                        & name.isValid()==true
+                        & patronymic.isValid()==true
+                        & numGroup.isValid()==true
+                        & day.isValid()==true
+                        & month.isValid()==true
+                        & year.isValid()==true)
+                {
+                    String date = year.getValue()+"-"+ month.getValue()+"-"+day.getValue();
+                    studensDAO.Add
+                            (surname.getValue().toString(),
+                            name.getValue().toString(),
+                            patronymic.getValue().toString(),
+                            numGroup.getValue().toString(),
+                            date);
+
+                    System.out.println(date);
+                    Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
+                    close(); // Close the sub-window
+                } else {
+                    Notification.show("Неверный формат или пустые поля", Notification.Type.TRAY_NOTIFICATION);
+                }
+            }
+        });
         hLayoutButton.addComponent(ok);
 
         Button cancel = new Button("Отменить");
