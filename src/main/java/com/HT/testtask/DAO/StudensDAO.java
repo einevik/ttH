@@ -148,17 +148,17 @@ public class StudensDAO {
         }
     }
 
-    public void Edit(int id, String surnameADD, String nameADD, String patronymicADD, String numGroupADD, String dateADD) {
+    public void Edit(int id, String surnameEdit, String nameEdit, String patronymicEdit, String numGroupEdit, String dateEdit) {
         Connection conn = null;
         Connect connect = new Connect();
         try {
             conn = connect.connectionPool.reserveConnection();
             try (PreparedStatement statement = conn.prepareStatement("UPDATE StudentTable SET surname=?, name=?, patronymic=?, numGroup=?, date=? WHERE id=?")) {
-                statement.setObject(1, surnameADD);
-                statement.setObject(2, nameADD);
-                statement.setObject(3, patronymicADD);
-                statement.setObject(4, numGroupADD);
-                statement.setObject(5, dateADD);
+                statement.setObject(1, surnameEdit);
+                statement.setObject(2, nameEdit);
+                statement.setObject(3, patronymicEdit);
+                statement.setObject(4, numGroupEdit);
+                statement.setObject(5, dateEdit);
                 statement.setObject(6, id);
                 statement.executeUpdate();
                 statement.close();
