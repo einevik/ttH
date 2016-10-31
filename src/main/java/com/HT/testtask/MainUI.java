@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 @Theme(ValoTheme.THEME_NAME)
 public class MainUI extends UI {
 
-
     @Override
     protected void init(VaadinRequest request) {
 
