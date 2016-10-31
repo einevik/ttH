@@ -1,14 +1,10 @@
 package com.HT.testtask;
 
 import com.HT.testtask.DAO.StudensDAO;
-import com.HT.testtask.EditWindow;
-
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
-import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
@@ -54,31 +50,17 @@ public class MainUI extends UI {
         Button apply = new Button("Приминть");
         apply.setWidth(String.valueOf(130));
 
-        String filterSurname, filterGroup;
-        filterSurname = findStudent.getValue();
-        filterGroup = findGroup.getValue();
-
         String mainQuery = "SELECT * FROM StudentTable";
-        String filterSurnameQuery = "SELECT * FROM StudentTable WHERE surname='"+filterSurname+"'";
-        String filterGroupQuery = "SELECT * FROM StudentTable WHERE surname='"+filterGroup+"'";
 //        String filterAll = "SELECT * FROM StudentTable WHERE surname='"+filterGroup+"'";
         Table studentTable = new Table();
 
-        if (findStudent.getValue().equals("")|| findGroup.getValue().equals("")) {
+        if (findStudent.getValue().equals("") && findGroup.getValue().equals("")) {
             try {
                 studentTable.setContainerDataSource(studensDAO.buildContainer(mainQuery));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else if (!findStudent.getValue().equals("")|| findGroup.getValue().equals("")) {
-            try {
-                studentTable.setContainerDataSource(studensDAO.buildContainer(filterSurnameQuery));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-
-
 
         studentTable.setColumnCollapsingAllowed(true);
         studentTable.setColumnCollapsed("ID", true);
@@ -168,10 +150,51 @@ public class MainUI extends UI {
         apply.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
-                update.refresh();
+                String filterSurname, filterGroup;
+                filterSurname = findStudent.getValue();
+                filterGroup = findGroup.getValue();
+                String filterSurnameQuery = "SELECT * FROM StudentTable WHERE surname='"+filterSurname+"'";
+                String filterGroupQuery = "SELECT * FROM StudentTable WHERE numGroup='"+filterGroup+"'";
+                String filterAll = "SELECT * FROM StudentTable WHERE surname='"+filterSurname+"'"+" AND numGroup='"+filterGroup+"'";
+                if (!filterSurname.equals("") && filterGroup.equals("")) {
+                    try {
+                        studentTable.setContainerDataSource(studensDAO.buildContainer(filterSurnameQuery));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+                    update.refresh();
+                    System.out.println(filterSurnameQuery);
+                } else if (filterSurname.equals("") && !filterGroup.equals("")) {
+                    try {
+                        studentTable.setContainerDataSource(studensDAO.buildContainer(filterGroupQuery));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+                    update.refresh();
+                    System.out.println(filterGroupQuery);
+                } else if (!filterSurname.equals("") && !filterGroup.equals("")){
+                    try {
+                        studentTable.setContainerDataSource(studensDAO.buildContainer(filterAll));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+                    update.refresh();
+                    System.out.println(filterAll);
+                } else {
+                    try {
+                        studentTable.setContainerDataSource(studensDAO.buildContainer(mainQuery));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+                    update.refresh();
+                }studentTable.setColumnCollapsed("ID", true);
             }
         });
+
         vLayout.addComponent(labelLayout);
         labelLayout.addComponent(findLabel);
         vLayout.addComponent(findLayout);
