@@ -51,6 +51,7 @@ public class MainUI extends UI {
 
 
 
+
         studentTable.setColumnCollapsingAllowed(true);
         studentTable.setColumnCollapsed("ID", true);
         studentTable.setColumnHeader("SURNAME", "Фамилия");

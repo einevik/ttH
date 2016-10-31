@@ -15,9 +15,9 @@ public class StudensDAO {
     public Container buildContainer() throws SQLException {
         Connect connect = new Connect();
         initDatabase(connect.connectionPool);
-        return new SQLContainer(new FreeformQuery(
-                "SELECT id, surname, name, patronymic, numGroup, date FROM StudentTable",
-                connect.connectionPool));
+        FreeformQuery MainQuery = new FreeformQuery("SELECT id, surname, name, patronymic, numGroup, date FROM StudentTable",connect.connectionPool);
+        SQLContainer mainSQLcontainer = new SQLContainer(MainQuery);
+        return mainSQLcontainer;
     }
 
 
