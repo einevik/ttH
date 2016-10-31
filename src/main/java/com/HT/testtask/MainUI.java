@@ -12,20 +12,21 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.sql.Date;
 import java.sql.SQLException;
-
 
 @Title("Main UI")
 @Theme(ValoTheme.THEME_NAME)
 public class MainUI extends UI {
 
+
     @Override
     protected void init(VaadinRequest request) {
 
-        StudensDAO studensDAO = new StudensDAO();
-        EditWindow editModel = new EditWindow();
 
-        int iTST=12;
+        StudensDAO studensDAO = new StudensDAO();
+//        EditWindow editSub = new EditWindow();
+        AddWindow addSub = new AddWindow();
 
 
         VerticalLayout vLayout = new VerticalLayout();
@@ -65,7 +66,7 @@ public class MainUI extends UI {
         Button edit = new Button("Изменить");
         Button delete = new Button("Удалить");
 
-        AddWindow addSub = new AddWindow();
+
         add.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
@@ -81,7 +82,6 @@ public class MainUI extends UI {
             }
         });
 
-        EditWindow editSub = new EditWindow();
         edit.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
@@ -92,16 +92,11 @@ public class MainUI extends UI {
                     String name = (String)studentTable.getContainerProperty(rowId, "NAME").getValue();
                     String patronymic = (String)studentTable.getContainerProperty(rowId, "PATRONYMIC").getValue();
                     int numGroup = (int)studentTable.getContainerProperty(rowId, "NUMGROUP").getValue();
-                    Object date = studentTable.getContainerProperty(rowId, "DATE").getValue();
+                    Date date = (Date) studentTable.getContainerProperty(rowId, "DATE").getValue();
 
-//                    editModel.editSurname= (String)studentTable.getContainerProperty(rowId, "SURNAME").getValue();
+                    EditWindow editSub = new EditWindow(id, surname, name, patronymic, numGroup, date);
+//                    System.out.println(testSurname);
 
-//                    System.out.println(surname);
-//                    System.out.println(name);
-//                    System.out.println(patronymic);
-//                    System.out.println(numGroup);
-//                    System.out.println(date);
-//                    studentTable.setValue(null);
                     UI.getCurrent().addWindow(editSub);
                 } else {
                     Notification.show("Выберите студента", Type.TRAY_NOTIFICATION);
@@ -134,4 +129,8 @@ public class MainUI extends UI {
         setContent(vLayout);
     }
 
+//    public String getTestSurname (){
+//        System.out.println(testSurname+"  testSurname Get test");
+//        return testSurname;
+//    }
 }

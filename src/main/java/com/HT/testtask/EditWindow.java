@@ -6,12 +6,22 @@ import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 class EditWindow extends Window {
 
-    public EditWindow() {
+    public EditWindow(int mainID,
+                      String mainSurname,
+                      String mainName,
+                      String mainPatronymic,
+                      int mainNumGroup,
+                      Date mainDate) {
         super("Изменить данные");
         center();
 
+        MainUI mainUI = new MainUI();
         StudensDAO studensDAO = new StudensDAO();
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayoutDate = new HorizontalLayout();
@@ -74,6 +84,24 @@ class EditWindow extends Window {
         setContent(vLayout);
         hLayoutButton.addComponent(ok);
         hLayoutButton.addComponent(cancel);
+
+
+        String conNumGroup= Integer.toString(mainNumGroup);
+
+        DateFormat formatDay = new SimpleDateFormat("dd");
+        DateFormat formatMonth = new SimpleDateFormat("MM");
+        DateFormat formatYear = new SimpleDateFormat("yyyy");
+        String textDateDay = formatDay.format(mainDate);
+        String textDateMonth = formatMonth.format(mainDate);
+        String textDateYear = formatYear.format(mainDate);
+
+        surname.setValue(mainSurname);
+        name.setValue(mainName);
+        patronymic.setValue(mainPatronymic);
+        numGroup.setValue(conNumGroup);
+        year.setValue(textDateYear);
+        month.setValue(textDateMonth);
+        day.setValue(textDateDay);
 
         year.addListener(new Property.ValueChangeListener() {
             public void valueChange(Property.ValueChangeEvent event) {
@@ -206,6 +234,7 @@ class EditWindow extends Window {
                 close();
             }
         });
+
     }
 
 }
