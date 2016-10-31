@@ -1,5 +1,6 @@
 package com.HT.testtask;
 
+import com.HT.testtask.DAO.GroupsDAO;
 import com.HT.testtask.DAO.StudensDAO;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -26,11 +27,15 @@ public class MainUI extends UI {
     protected void init(VaadinRequest request) {
 
         StudensDAO studensDAO = new StudensDAO();
+        GroupsDAO groupsDAO = new GroupsDAO();
         AddWindow addSub = new AddWindow();
 
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
         HorizontalLayout findLayout = new HorizontalLayout();
+        VerticalLayout groupVLayout = new VerticalLayout();
+        VerticalLayout groupVClear = new VerticalLayout();
+        HorizontalLayout groupHLayout = new HorizontalLayout();
         vLayout.setMargin(true);
 
         TextField findStudent = new TextField();
@@ -51,6 +56,7 @@ public class MainUI extends UI {
         apply.setWidth(String.valueOf(130));
 
         String mainQuery = "SELECT * FROM StudentTable";
+        String groupQuery = "SELECT * FROM GroupTable";
 //        String filterAll = "SELECT * FROM StudentTable WHERE surname='"+filterGroup+"'";
         Table studentTable = new Table();
         if (findStudent.getValue().equals("") && findGroup.getValue().equals("")) {
@@ -60,7 +66,6 @@ public class MainUI extends UI {
                 e.printStackTrace();
             }
         }
-
         studentTable.setColumnCollapsingAllowed(true);
         studentTable.setColumnCollapsed("ID", true);
         studentTable.setColumnHeader("SURNAME", "Фамилия");
@@ -76,7 +81,30 @@ public class MainUI extends UI {
         studentTable.setColumnWidth("DATE", 130);
         studentTable.setPageLength(10);
         studentTable.setSelectable(true);
-//        studentTable.setEditable(true);
+
+
+        Table groupTable = new Table();
+            try {
+                groupTable.setContainerDataSource(groupsDAO.buildContainer(groupQuery));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        groupTable.setColumnCollapsingAllowed(true);
+        groupTable.setColumnCollapsed("ID", true);
+        groupTable.setColumnHeader("SURNAME", "Фамилия");
+        groupTable.setColumnHeader("NAME", "Имя");
+        groupTable.setColumnHeader("PATRONYMIC", "Отчество");
+        groupTable.setColumnHeader("NUMGROUP", "Группа");
+        groupTable.setColumnAlignment("NUMGROUP", Table.ALIGN_CENTER);
+        groupTable.setColumnHeader("DATE", "Дата рождения");
+        groupTable.setColumnWidth("SURNAME", 160);
+        groupTable.setColumnWidth("NAME", 160);
+        groupTable.setColumnWidth("PATRONYMIC", 160);
+        groupTable.setColumnWidth("NUMGROUP", 80);
+        groupTable.setColumnWidth("DATE", 130);
+        groupTable.setPageLength(5);
+        groupTable.setSelectable(true);
+
 
         vLayout.addComponent(findLayout);
         findLayout.addComponent(findStudent);
@@ -87,6 +115,10 @@ public class MainUI extends UI {
         hLayout.addComponent(add);
         hLayout.addComponent(edit);
         hLayout.addComponent(delete);
+        vLayout.addComponent(groupVClear);
+        vLayout.addComponent(groupVLayout);
+        groupVLayout.addComponent(groupTable);
+        vLayout.addComponent(groupHLayout);
         setContent(vLayout);
 
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); // ("dd MMM yyyy")
