@@ -215,7 +215,7 @@ class EditWindow extends Window {
                     year.setValue("");
                     month.setValue("");
                     day.setValue("");
-                    Notification.show("Добавлен новый студент", Notification.Type.TRAY_NOTIFICATION);
+                    Notification.show("Данные изменены", Notification.Type.TRAY_NOTIFICATION);
                     close();
                 } else {
                     Notification.show("Неверный формат или пустые поля", Notification.Type.TRAY_NOTIFICATION);

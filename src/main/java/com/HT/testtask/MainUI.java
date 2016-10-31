@@ -5,6 +5,8 @@ import com.HT.testtask.EditWindow;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
@@ -14,6 +16,8 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 @Title("Main UI")
 @Theme(ValoTheme.THEME_NAME)
@@ -51,16 +55,16 @@ public class MainUI extends UI {
 //        studentTable.setEditable(true);
 
 
-//        DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); // ("dd MMM yyyy")
-//        studentTable.addGeneratedColumn("DATE", new Table.ColumnGenerator() {
-//            @Override
-//            public Object generateCell(Table source, Object itemId, Object columnId) {
-//                Item item = source.getItem(itemId);
-//                Property<Date> prop = item.getItemProperty(columnId);
-//                Date date = (Date) prop.getValue();
-//                return new Label(df.format(date));
-//            }
-//        });
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); // ("dd MMM yyyy")
+        studentTable.addGeneratedColumn("DATE", new Table.ColumnGenerator() {
+            @Override
+            public Object generateCell(Table source, Object itemId, Object columnId) {
+                Item item = source.getItem(itemId);
+                Property<Date> prop = item.getItemProperty(columnId);
+                Date date = (Date) prop.getValue();
+                return new Label(df.format(date));
+            }
+        });
 
         Button add = new Button("Добавить");
         Button edit = new Button("Изменить");
