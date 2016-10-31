@@ -29,26 +29,54 @@ public class MainUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
 
-
         StudensDAO studensDAO = new StudensDAO();
 //        EditWindow editSub = new EditWindow();
         AddWindow addSub = new AddWindow();
-
 
         VerticalLayout vLayout = new VerticalLayout();
         VerticalLayout labelLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
         HorizontalLayout findLayout = new HorizontalLayout();
-
         vLayout.setMargin(true);
 
-        Table studentTable = new Table();
-        try {
-            studentTable.setContainerDataSource(studensDAO.buildContainer());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        TextField findStudent = new TextField();
+        findStudent.setInputPrompt("Фамилия...");
+        findStudent.setWidth(String.valueOf(484));
+        TextField findGroup = new TextField();
+        findGroup.setInputPrompt("Группа...");
+        findGroup.setWidth(String.valueOf(82));
+        Button add = new Button("Добавить");
+        add.setWidth(String.valueOf(232));
+        Button edit = new Button("Изменить");
+        edit.setWidth(String.valueOf(232));
+        Button delete = new Button("Удалить");
+        delete.setWidth(String.valueOf(233));
+        Button apply = new Button("Приминть");
+        apply.setWidth(String.valueOf(130));
 
+        String filterSurname, filterGroup;
+        filterSurname = findStudent.getValue();
+        filterGroup = findGroup.getValue();
+
+        String mainQuery = "SELECT * FROM StudentTable";
+        String filterSurnameQuery = "SELECT * FROM StudentTable WHERE surname='"+filterSurname+"'";
+        String filterGroupQuery = "SELECT * FROM StudentTable WHERE surname='"+filterGroup+"'";
+//        String filterAll = "SELECT * FROM StudentTable WHERE surname='"+filterGroup+"'";
+        Table studentTable = new Table();
+
+        if (findStudent.getValue().equals("")|| findGroup.getValue().equals("")) {
+            try {
+                studentTable.setContainerDataSource(studensDAO.buildContainer(mainQuery));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (!findStudent.getValue().equals("")|| findGroup.getValue().equals("")) {
+            try {
+                studentTable.setContainerDataSource(studensDAO.buildContainer(filterSurnameQuery));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
 
 
@@ -60,23 +88,14 @@ public class MainUI extends UI {
         studentTable.setColumnHeader("NUMGROUP", "Группа");
         studentTable.setColumnAlignment("NUMGROUP", Table.ALIGN_CENTER);
         studentTable.setColumnHeader("DATE", "Дата рождения");
-
         studentTable.setColumnWidth("SURNAME", 160);
         studentTable.setColumnWidth("NAME", 160);
         studentTable.setColumnWidth("PATRONYMIC", 160);
         studentTable.setColumnWidth("NUMGROUP", 80);
         studentTable.setColumnWidth("DATE", 130);
-
         studentTable.setPageLength(10);
         studentTable.setSelectable(true);
 //        studentTable.setEditable(true);
-
-        TextField findStudent = new TextField();
-        findStudent.setInputPrompt("Фамилия...");
-        findStudent.setWidth(String.valueOf(484));
-        TextField findGroup = new TextField();
-        findGroup.setInputPrompt("Группа...");
-        findGroup.setWidth(String.valueOf(82));
 
         Label findLabel = new Label();
 //        findLabel.setValue("Фильтр");
@@ -91,15 +110,6 @@ public class MainUI extends UI {
                 return new Label(df.format(date));
             }
         });
-
-        Button add = new Button("Добавить");
-        add.setWidth(String.valueOf(232));
-        Button edit = new Button("Изменить");
-        edit.setWidth(String.valueOf(232));
-        Button delete = new Button("Удалить");
-        delete.setWidth(String.valueOf(233));
-        Button apply = new Button("Приминть");
-        apply.setWidth(String.valueOf(130));
 
         add.addClickListener(new Button.ClickListener() {
             @Override
@@ -155,6 +165,13 @@ public class MainUI extends UI {
             }
         });
 
+        apply.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+                update.refresh();
+            }
+        });
         vLayout.addComponent(labelLayout);
         labelLayout.addComponent(findLabel);
         vLayout.addComponent(findLayout);
@@ -168,9 +185,4 @@ public class MainUI extends UI {
         hLayout.addComponent(delete);
         setContent(vLayout);
     }
-
-//    public String getTestSurname (){
-//        System.out.println(testSurname+"  testSurname Get test");
-//        return testSurname;
-//    }
 }

@@ -12,10 +12,11 @@ import java.sql.Statement;
 
 public class StudensDAO {
 
-    public Container buildContainer() throws SQLException {
+    public Container buildContainer(String newQuery) throws SQLException {
         Connect connect = new Connect();
         initDatabase(connect.connectionPool);
-        FreeformQuery MainQuery = new FreeformQuery("SELECT id, surname, name, patronymic, numGroup, date FROM StudentTable",connect.connectionPool);
+//        "SELECT id, surname, name, patronymic, numGroup, date FROM StudentTable"
+        FreeformQuery MainQuery = new FreeformQuery(newQuery,connect.connectionPool);
         SQLContainer mainSQLcontainer = new SQLContainer(MainQuery);
         return mainSQLcontainer;
     }
