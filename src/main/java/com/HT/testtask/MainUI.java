@@ -128,7 +128,6 @@ public class MainUI extends UI {
                     Date date = (Date) studentTable.getContainerProperty(rowId, "DATE").getValue();
 
                     EditWindow editSub = new EditWindow(id, surname, name, patronymic, numGroup, date);
-//                    System.out.println(testSurname);
 
                     UI.getCurrent().addWindow(editSub);
                 } else {
