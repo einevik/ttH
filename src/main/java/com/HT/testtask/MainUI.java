@@ -69,10 +69,10 @@ public class MainUI extends UI {
 
         TextField findStudent = new TextField();
         findStudent.setInputPrompt("Фамилия...");
-        findStudent.setWidth(String.valueOf(483));
+        findStudent.setWidth(String.valueOf(484));
         TextField findGroup = new TextField();
         findGroup.setInputPrompt("Группа...");
-        findGroup.setWidth(String.valueOf(83));
+        findGroup.setWidth(String.valueOf(82));
 
         Label findLabel = new Label();
 //        findLabel.setValue("Фильтр");
