@@ -6,6 +6,7 @@ import com.vaadin.annotations.Title;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
+import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -36,9 +37,11 @@ public class MainUI extends UI {
         vLayout.setMargin(true);
 
         TextField findStudent = new TextField();
+        findStudent.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Кириллица без пробелов"));
         findStudent.setInputPrompt("Фамилия...");
         findStudent.setWidth(String.valueOf(484));
         TextField findGroup = new TextField();
+        findGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
         findGroup.setInputPrompt("Группа...");
         findGroup.setWidth(String.valueOf(82));
         Button add = new Button("Добавить");
@@ -164,7 +167,7 @@ public class MainUI extends UI {
                     }
                     SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
                     update.refresh();
-                    System.out.println(filterSurnameQuery);
+//                    System.out.println(filterSurnameQuery);
                 } else if (filterSurname.equals("") && !filterGroup.equals("")) {
                     try {
                         studentTable.setContainerDataSource(studensDAO.buildContainer(filterGroupQuery));
@@ -173,7 +176,7 @@ public class MainUI extends UI {
                     }
                     SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
                     update.refresh();
-                    System.out.println(filterGroupQuery);
+//                    System.out.println(filterGroupQuery);
                 } else if (!filterSurname.equals("") && !filterGroup.equals("")){
                     try {
                         studentTable.setContainerDataSource(studensDAO.buildContainer(filterAll));
@@ -182,7 +185,7 @@ public class MainUI extends UI {
                     }
                     SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
                     update.refresh();
-                    System.out.println(filterAll);
+//                    System.out.println(filterAll);
                 } else {
                     try {
                         studentTable.setContainerDataSource(studensDAO.buildContainer(mainQuery));

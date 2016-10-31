@@ -54,9 +54,9 @@ class EditWindow extends Window {
         year.setWidth(String.valueOf(70));
         year.setInputPrompt("гггг");
 
-        surname.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
-        name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
-        patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Только буквы без пробелов"));
+        surname.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Кириллица без пробелов"));
+        name.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Кириллица без пробелов"));
+        patronymic.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Кириллица без пробелов"));
         numGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
         month.addValidator(new RegexpValidator("(0[1-9]|1[012])", "с 01 до 12"));
         year.addValidator(new RegexpValidator("(19|20)\\d\\d", "с 1900 до 2099"));
