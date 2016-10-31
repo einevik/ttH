@@ -13,9 +13,9 @@ import java.sql.Statement;
 public class StudensDAO {
 
     public Container buildContainer(String newQuery) throws SQLException {
-        Connect connect = new Connect();
-        initDatabase(connect.connectionPool);
-        FreeformQuery MainQuery = new FreeformQuery(newQuery, connect.connectionPool);
+        ConnectStudent connectStudent = new ConnectStudent();
+        initDatabase(connectStudent.connectionPool);
+        FreeformQuery MainQuery = new FreeformQuery(newQuery, connectStudent.connectionPool);
         SQLContainer mainSQLcontainer = new SQLContainer(MainQuery);
         return mainSQLcontainer;
     }
@@ -67,9 +67,9 @@ public class StudensDAO {
 
     public void Delete(int id) {
         Connection conn = null;
-        Connect connect = new Connect();
+        ConnectStudent connectStudent = new ConnectStudent();
         try {
-            conn = connect.connectionPool.reserveConnection();
+            conn = connectStudent.connectionPool.reserveConnection();
             try (PreparedStatement statement = conn.prepareStatement("DELETE FROM StudentTable WHERE ID = ?")) {
                 statement.setObject(1, id);
                 statement.executeUpdate();
@@ -79,15 +79,15 @@ public class StudensDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            connect.connectionPool.releaseConnection(conn);
+            connectStudent.connectionPool.releaseConnection(conn);
         }
     }
 
     public void Add(String surnameADD, String nameADD, String patronymicADD, String numGroupADD, String dateADD) {
         Connection conn = null;
-        Connect connect = new Connect();
+        ConnectStudent connectStudent = new ConnectStudent();
         try {
-            conn = connect.connectionPool.reserveConnection();
+            conn = connectStudent.connectionPool.reserveConnection();
             try (PreparedStatement statement = conn.prepareStatement("INSERT INTO StudentTable (surname, name, patronymic, numGroup, date) VALUES (?,?,?,?,?)")) {
                 statement.setObject(1, surnameADD);
                 statement.setObject(2, nameADD);
@@ -101,15 +101,15 @@ public class StudensDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            connect.connectionPool.releaseConnection(conn);
+            connectStudent.connectionPool.releaseConnection(conn);
         }
     }
 
     public void Edit(int id, String surnameEdit, String nameEdit, String patronymicEdit, String numGroupEdit, String dateEdit) {
         Connection conn = null;
-        Connect connect = new Connect();
+        ConnectStudent connectStudent = new ConnectStudent();
         try {
-            conn = connect.connectionPool.reserveConnection();
+            conn = connectStudent.connectionPool.reserveConnection();
             try (PreparedStatement statement = conn.prepareStatement("UPDATE StudentTable SET surname=?, name=?, patronymic=?, numGroup=?, date=? WHERE id=?")) {
                 statement.setObject(1, surnameEdit);
                 statement.setObject(2, nameEdit);
@@ -124,7 +124,7 @@ public class StudensDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            connect.connectionPool.releaseConnection(conn);
+            connectStudent.connectionPool.releaseConnection(conn);
         }
     }
 }
