@@ -25,7 +25,7 @@ public class GroupsDAO {
         try {
             conn = connectionPool.reserveConnection();
             try (Statement statement = conn.createStatement()) {
-                statement.execute("SELECT id, surname, name, patronymic, numGroup, date FROM GroupTable");
+                statement.execute("SELECT id, nameFac, numGroup FROM GroupTable");
                 statement.close();
 //                System.out.println("Ничего не создано");
             }
@@ -34,28 +34,25 @@ public class GroupsDAO {
             statement
                     .execute("CREATE TABLE GroupTable "
                             + "(id IDENTITY NOT NULL , "
-                            + "surname VARCHAR(255),"
-                            + "name VARCHAR(255),"
-                            + "patronymic VARCHAR(255), "
+                            + "nameFac VARCHAR(255),"
                             + "numGroup INTEGER, "
-                            + "date DATE ,"
                             + "PRIMARY KEY (id))");
             statement
                     .executeUpdate("INSERT INTO GroupTable "
-                            + "(surname, name, patronymic, numGroup, date) "
-                            + "VALUES ('Иванов', 'Иван', 'Иванович', '5', '1995-09-15')");
+                            + "(nameFac, numGroup) "
+                            + "VALUES ('Теплоэнергетический', '5')");
             statement
                     .executeUpdate("INSERT INTO GroupTable "
-                            + "(surname, name, patronymic, numGroup, date) "
-                            + "VALUES ('Васильев', 'Василий', 'Васильевич', '11', '1992-02-13')");
+                            + "(nameFac, numGroup) "
+                            + "VALUES ('Электротехнический', '11')");
             statement
                     .executeUpdate("INSERT INTO GroupTable "
-                            + "(surname, name, patronymic, numGroup, date) "
-                            + "VALUES ('Семенов', 'Семен', 'Семенович', '7', '1998-02-01')");
+                            + "(nameFac, numGroup) "
+                            + "VALUES ('Нефтетехнологический', '15')");
             statement
                     .executeUpdate("INSERT INTO GroupTable "
-                            + "(surname, name, patronymic, numGroup, date) "
-                            + "VALUES ('Петров', 'Петр', 'Петрович', '2', '1995-07-20')");
+                            + "(nameFac, numGroup) "
+                            + "VALUES ('Химико-технологический', '2')");
             statement.close();
             conn.commit();
             e.printStackTrace();
@@ -83,17 +80,14 @@ public class GroupsDAO {
         }
     }
 
-    public void Add(String surnameADD, String nameADD, String patronymicADD, String numGroupADD, String dateADD) {
+    public void Add(String nameFacADD, String numGroupADD) {
         Connection conn = null;
         ConnectGroup connectGroup = new ConnectGroup();
         try {
             conn = connectGroup.connectionPool.reserveConnection();
-            try (PreparedStatement statement = conn.prepareStatement("INSERT INTO GroupTable (surname, name, patronymic, numGroup, date) VALUES (?,?,?,?,?)")) {
-                statement.setObject(1, surnameADD);
-                statement.setObject(2, nameADD);
-                statement.setObject(3, patronymicADD);
-                statement.setObject(4, numGroupADD);
-                statement.setObject(5, dateADD);
+            try (PreparedStatement statement = conn.prepareStatement("INSERT INTO GroupTable (nameFac, numGroup) VALUES (?,?)")) {
+                statement.setObject(1, nameFacADD);
+                statement.setObject(2, numGroupADD);
                 statement.executeUpdate();
                 statement.close();
             }
@@ -105,18 +99,15 @@ public class GroupsDAO {
         }
     }
 
-    public void Edit(int id, String surnameEdit, String nameEdit, String patronymicEdit, String numGroupEdit, String dateEdit) {
+    public void Edit(int id, String nameFacEdit, String numGroupEdit) {
         Connection conn = null;
         ConnectGroup connectGroup = new ConnectGroup();
         try {
             conn = connectGroup.connectionPool.reserveConnection();
-            try (PreparedStatement statement = conn.prepareStatement("UPDATE GroupTable SET surname=?, name=?, patronymic=?, numGroup=?, date=? WHERE id=?")) {
-                statement.setObject(1, surnameEdit);
-                statement.setObject(2, nameEdit);
-                statement.setObject(3, patronymicEdit);
-                statement.setObject(4, numGroupEdit);
-                statement.setObject(5, dateEdit);
-                statement.setObject(6, id);
+            try (PreparedStatement statement = conn.prepareStatement("UPDATE GroupTable SET nameFacADD=?, numGroup=? WHERE id=?")) {
+                statement.setObject(1, nameFacEdit);
+                statement.setObject(2, numGroupEdit);
+                statement.setObject(3, id);
                 statement.executeUpdate();
                 statement.close();
             }

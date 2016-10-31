@@ -55,6 +55,13 @@ public class MainUI extends UI {
         Button apply = new Button("Приминть");
         apply.setWidth(String.valueOf(130));
 
+        Button addGroup = new Button("Добавить");
+        addGroup.setWidth(String.valueOf(232));
+        Button editGroup = new Button("Изменить");
+        editGroup.setWidth(String.valueOf(232));
+        Button deleteGroup = new Button("Удалить");
+        deleteGroup.setWidth(String.valueOf(233));
+
         String mainQuery = "SELECT * FROM StudentTable";
         String groupQuery = "SELECT * FROM GroupTable";
 //        String filterAll = "SELECT * FROM StudentTable WHERE surname='"+filterGroup+"'";
@@ -91,17 +98,11 @@ public class MainUI extends UI {
             }
         groupTable.setColumnCollapsingAllowed(true);
         groupTable.setColumnCollapsed("ID", true);
-        groupTable.setColumnHeader("SURNAME", "Фамилия");
-        groupTable.setColumnHeader("NAME", "Имя");
-        groupTable.setColumnHeader("PATRONYMIC", "Отчество");
+        groupTable.setColumnHeader("NAMEFAC", "Факультет");
         groupTable.setColumnHeader("NUMGROUP", "Группа");
         groupTable.setColumnAlignment("NUMGROUP", Table.ALIGN_CENTER);
-        groupTable.setColumnHeader("DATE", "Дата рождения");
-        groupTable.setColumnWidth("SURNAME", 160);
-        groupTable.setColumnWidth("NAME", 160);
-        groupTable.setColumnWidth("PATRONYMIC", 160);
-        groupTable.setColumnWidth("NUMGROUP", 80);
-        groupTable.setColumnWidth("DATE", 130);
+        groupTable.setColumnWidth("NAMEFAC", 600);
+        groupTable.setColumnWidth("NUMGROUP", 90);
         groupTable.setPageLength(5);
         groupTable.setSelectable(true);
 
@@ -119,6 +120,9 @@ public class MainUI extends UI {
         vLayout.addComponent(groupVLayout);
         groupVLayout.addComponent(groupTable);
         vLayout.addComponent(groupHLayout);
+        groupHLayout.addComponent(addGroup);
+        groupHLayout.addComponent(editGroup);
+        groupHLayout.addComponent(deleteGroup);
         setContent(vLayout);
 
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); // ("dd MMM yyyy")
@@ -234,5 +238,20 @@ public class MainUI extends UI {
             }
         });
 
+
+        addGroup.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                UI.getCurrent().addWindow(addSub);
+            }
+        });
+
+        addSub.addCloseListener(new Window.CloseListener() {
+            @Override
+            public void windowClose(Window.CloseEvent closeEvent) {
+                SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+                update.refresh();
+            }
+        });
     }
 }
