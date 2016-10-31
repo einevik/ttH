@@ -202,8 +202,8 @@ class EditWindow extends Window {
                         & year.isValid()==true)
                 {
                     String date = year.getValue()+"-"+ month.getValue()+"-"+day.getValue();
-                    studensDAO.Add
-                            (surname.getValue().toString(),
+                    studensDAO.Edit(mainID,
+                                    surname.getValue().toString(),
                                     name.getValue().toString(),
                                     patronymic.getValue().toString(),
                                     numGroup.getValue().toString(),
