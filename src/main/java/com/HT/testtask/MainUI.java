@@ -8,6 +8,7 @@ import com.vaadin.annotations.Title;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
@@ -47,6 +48,8 @@ public class MainUI extends UI {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
 
         studentTable.setColumnCollapsingAllowed(true);
         studentTable.setColumnCollapsed("ID", true);
