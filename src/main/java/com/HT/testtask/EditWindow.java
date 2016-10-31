@@ -86,7 +86,7 @@ class EditWindow extends Window {
         hLayoutButton.addComponent(cancel);
 
 
-        String conNumGroup= Integer.toString(mainNumGroup);
+        String conNumGroup = Integer.toString(mainNumGroup);
 
         DateFormat formatDay = new SimpleDateFormat("dd");
         DateFormat formatMonth = new SimpleDateFormat("MM");
@@ -148,7 +148,7 @@ class EditWindow extends Window {
                 } else if (!month.getValue().equals("02")) {
                     day.removeAllValidators();
                     day.addValidator(new RegexpValidator("(0[1-9]|[12][0-9]|3[0])", "с 01 до 30"));
-                }else if (month.getValue().equals("02")) {
+                } else if (month.getValue().equals("02")) {
                     if (month.getValue().equals("02")) {
                         int intYear;
                         String sYear = year.getValue();
@@ -193,21 +193,20 @@ class EditWindow extends Window {
                         & !day.getValue().equals("")
                         & !month.getValue().equals("")
                         & !year.getValue().equals("")
-                        & surname.isValid()==true
-                        & name.isValid()==true
-                        & patronymic.isValid()==true
-                        & numGroup.isValid()==true
-                        & day.isValid()==true
-                        & month.isValid()==true
-                        & year.isValid()==true)
-                {
-                    String date = year.getValue()+"-"+ month.getValue()+"-"+day.getValue();
+                        & surname.isValid() == true
+                        & name.isValid() == true
+                        & patronymic.isValid() == true
+                        & numGroup.isValid() == true
+                        & day.isValid() == true
+                        & month.isValid() == true
+                        & year.isValid() == true) {
+                    String date = year.getValue() + "-" + month.getValue() + "-" + day.getValue();
                     studensDAO.Edit(mainID,
-                                    surname.getValue().toString(),
-                                    name.getValue().toString(),
-                                    patronymic.getValue().toString(),
-                                    numGroup.getValue().toString(),
-                                    date);
+                            surname.getValue().toString(),
+                            name.getValue().toString(),
+                            patronymic.getValue().toString(),
+                            numGroup.getValue().toString(),
+                            date);
                     surname.setValue("");
                     name.setValue("");
                     patronymic.setValue("");

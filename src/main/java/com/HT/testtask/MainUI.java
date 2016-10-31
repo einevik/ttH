@@ -27,11 +27,9 @@ public class MainUI extends UI {
     protected void init(VaadinRequest request) {
 
         StudensDAO studensDAO = new StudensDAO();
-//        EditWindow editSub = new EditWindow();
         AddWindow addSub = new AddWindow();
 
         VerticalLayout vLayout = new VerticalLayout();
-        VerticalLayout labelLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
         HorizontalLayout findLayout = new HorizontalLayout();
         vLayout.setMargin(true);
@@ -56,7 +54,6 @@ public class MainUI extends UI {
         String mainQuery = "SELECT * FROM StudentTable";
 //        String filterAll = "SELECT * FROM StudentTable WHERE surname='"+filterGroup+"'";
         Table studentTable = new Table();
-
         if (findStudent.getValue().equals("") && findGroup.getValue().equals("")) {
             try {
                 studentTable.setContainerDataSource(studensDAO.buildContainer(mainQuery));
@@ -82,8 +79,16 @@ public class MainUI extends UI {
         studentTable.setSelectable(true);
 //        studentTable.setEditable(true);
 
-        Label findLabel = new Label();
-//        findLabel.setValue("Фильтр");
+        vLayout.addComponent(findLayout);
+        findLayout.addComponent(findStudent);
+        findLayout.addComponent(findGroup);
+        findLayout.addComponent(apply);
+        vLayout.addComponent(studentTable);
+        vLayout.addComponent(hLayout);
+        hLayout.addComponent(add);
+        hLayout.addComponent(edit);
+        hLayout.addComponent(delete);
+        setContent(vLayout);
 
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); // ("dd MMM yyyy")
         studentTable.addGeneratedColumn("DATE", new Table.ColumnGenerator() {
@@ -115,12 +120,12 @@ public class MainUI extends UI {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 Object rowId = studentTable.getValue();
-                if (rowId!=null) {
-                    int id = (int)studentTable.getContainerProperty(rowId, "ID").getValue();
-                    String surname = (String)studentTable.getContainerProperty(rowId, "SURNAME").getValue();
-                    String name = (String)studentTable.getContainerProperty(rowId, "NAME").getValue();
-                    String patronymic = (String)studentTable.getContainerProperty(rowId, "PATRONYMIC").getValue();
-                    int numGroup = (int)studentTable.getContainerProperty(rowId, "NUMGROUP").getValue();
+                if (rowId != null) {
+                    int id = (int) studentTable.getContainerProperty(rowId, "ID").getValue();
+                    String surname = (String) studentTable.getContainerProperty(rowId, "SURNAME").getValue();
+                    String name = (String) studentTable.getContainerProperty(rowId, "NAME").getValue();
+                    String patronymic = (String) studentTable.getContainerProperty(rowId, "PATRONYMIC").getValue();
+                    int numGroup = (int) studentTable.getContainerProperty(rowId, "NUMGROUP").getValue();
                     Date date = (Date) studentTable.getContainerProperty(rowId, "DATE").getValue();
 
                     EditWindow editSub = new EditWindow(id, surname, name, patronymic, numGroup, date);
@@ -137,8 +142,8 @@ public class MainUI extends UI {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 Object rowId = studentTable.getValue();
-                if (rowId!=null) {
-                    int id = (int)studentTable.getContainerProperty(rowId, "ID").getValue();
+                if (rowId != null) {
+                    int id = (int) studentTable.getContainerProperty(rowId, "ID").getValue();
                     studensDAO.Delete(id);
                     SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
                     update.refresh();
@@ -156,9 +161,9 @@ public class MainUI extends UI {
                 String filterSurname, filterGroup;
                 filterSurname = findStudent.getValue();
                 filterGroup = findGroup.getValue();
-                String filterSurnameQuery = "SELECT * FROM StudentTable WHERE surname='"+filterSurname+"'";
-                String filterGroupQuery = "SELECT * FROM StudentTable WHERE numGroup='"+filterGroup+"'";
-                String filterAll = "SELECT * FROM StudentTable WHERE surname='"+filterSurname+"'"+" AND numGroup='"+filterGroup+"'";
+                String filterSurnameQuery = "SELECT * FROM StudentTable WHERE surname='" + filterSurname + "'";
+                String filterGroupQuery = "SELECT * FROM StudentTable WHERE numGroup='" + filterGroup + "'";
+                String filterAll = "SELECT * FROM StudentTable WHERE surname='" + filterSurname + "'" + " AND numGroup='" + filterGroup + "'";
                 if (!filterSurname.equals("") && filterGroup.equals("")) {
                     try {
                         studentTable.setContainerDataSource(studensDAO.buildContainer(filterSurnameQuery));
@@ -177,7 +182,7 @@ public class MainUI extends UI {
                     SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
                     update.refresh();
 //                    System.out.println(filterGroupQuery);
-                } else if (!filterSurname.equals("") && !filterGroup.equals("")){
+                } else if (!filterSurname.equals("") && !filterGroup.equals("")) {
                     try {
                         studentTable.setContainerDataSource(studensDAO.buildContainer(filterAll));
                     } catch (SQLException e) {
@@ -194,21 +199,10 @@ public class MainUI extends UI {
                     }
                     SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
                     update.refresh();
-                }studentTable.setColumnCollapsed("ID", true);
+                }
+                studentTable.setColumnCollapsed("ID", true);
             }
         });
 
-        vLayout.addComponent(labelLayout);
-        labelLayout.addComponent(findLabel);
-        vLayout.addComponent(findLayout);
-        findLayout.addComponent(findStudent);
-        findLayout.addComponent(findGroup);
-        findLayout.addComponent(apply);
-        vLayout.addComponent(studentTable);
-        vLayout.addComponent(hLayout);
-        hLayout.addComponent(add);
-        hLayout.addComponent(edit);
-        hLayout.addComponent(delete);
-        setContent(vLayout);
     }
 }
