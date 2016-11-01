@@ -8,6 +8,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.event.MouseEvents;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -286,6 +287,16 @@ public class MainUI extends UI {
                 } else {
                     Notification.show("Выберите факультет", Type.TRAY_NOTIFICATION);
                 }
+            }
+        });
+
+        MainUI.getCurrent().addListener(new Listener() {
+            @Override
+            public void componentEvent(Event event) {
+                SQLContainer updateS = (SQLContainer) studentTable.getContainerDataSource();
+                updateS.refresh();
+                SQLContainer updateG = (SQLContainer) groupTable.getContainerDataSource();
+                updateG.refresh();
             }
         });
     }
