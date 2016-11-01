@@ -37,22 +37,22 @@ public class GroupsDAO {
                             + "nameFac VARCHAR(255),"
                             + "numGroup INTEGER, "
                             + "PRIMARY KEY (id))");
-            statement
-                    .executeUpdate("INSERT INTO GroupTable "
-                            + "(nameFac, numGroup) "
-                            + "VALUES ('Теплоэнергетический', '5')");
-            statement
-                    .executeUpdate("INSERT INTO GroupTable "
-                            + "(nameFac, numGroup) "
-                            + "VALUES ('Электротехнический', '11')");
-            statement
-                    .executeUpdate("INSERT INTO GroupTable "
-                            + "(nameFac, numGroup) "
-                            + "VALUES ('Нефтетехнологический', '15')");
-            statement
-                    .executeUpdate("INSERT INTO GroupTable "
-                            + "(nameFac, numGroup) "
-                            + "VALUES ('Химико-технологический', '2')");
+//            statement
+//                    .executeUpdate("INSERT INTO GroupTable "
+//                            + "(nameFac, numGroup) "
+//                            + "VALUES ('Теплоэнергетический', '5')");
+//            statement
+//                    .executeUpdate("INSERT INTO GroupTable "
+//                            + "(nameFac, numGroup) "
+//                            + "VALUES ('Электротехнический', '11')");
+//            statement
+//                    .executeUpdate("INSERT INTO GroupTable "
+//                            + "(nameFac, numGroup) "
+//                            + "VALUES ('Нефтетехнологический', '15')");
+//            statement
+//                    .executeUpdate("INSERT INTO GroupTable "
+//                            + "(nameFac, numGroup) "
+//                            + "VALUES ('Химико-технологический', '2')");
             statement.close();
             conn.commit();
             e.printStackTrace();

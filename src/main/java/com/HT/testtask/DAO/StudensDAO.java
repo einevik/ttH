@@ -40,22 +40,22 @@ public class StudensDAO {
                             + "numGroup INTEGER, "
                             + "date DATE ,"
                             + "PRIMARY KEY (id))");
-            statement
-                    .executeUpdate("INSERT INTO StudentTable "
-                            + "(surname, name, patronymic, numGroup, date) "
-                            + "VALUES ('Иванов', 'Иван', 'Иванович', '5', '1995-09-15')");
-            statement
-                    .executeUpdate("INSERT INTO StudentTable "
-                            + "(surname, name, patronymic, numGroup, date) "
-                            + "VALUES ('Васильев', 'Василий', 'Васильевич', '11', '1992-02-13')");
-            statement
-                    .executeUpdate("INSERT INTO StudentTable "
-                            + "(surname, name, patronymic, numGroup, date) "
-                            + "VALUES ('Семенов', 'Семен', 'Семенович', '7', '1998-02-01')");
-            statement
-                    .executeUpdate("INSERT INTO StudentTable "
-                            + "(surname, name, patronymic, numGroup, date) "
-                            + "VALUES ('Петров', 'Петр', 'Петрович', '2', '1995-07-20')");
+//            statement
+//                    .executeUpdate("INSERT INTO StudentTable "
+//                            + "(surname, name, patronymic, numGroup, date) "
+//                            + "VALUES ('Иванов', 'Иван', 'Иванович', '5', '1995-09-15')");
+//            statement
+//                    .executeUpdate("INSERT INTO StudentTable "
+//                            + "(surname, name, patronymic, numGroup, date) "
+//                            + "VALUES ('Васильев', 'Василий', 'Васильевич', '11', '1992-02-13')");
+//            statement
+//                    .executeUpdate("INSERT INTO StudentTable "
+//                            + "(surname, name, patronymic, numGroup, date) "
+//                            + "VALUES ('Семенов', 'Семен', 'Семенович', '7', '1998-02-01')");
+//            statement
+//                    .executeUpdate("INSERT INTO StudentTable "
+//                            + "(surname, name, patronymic, numGroup, date) "
+//                            + "VALUES ('Петров', 'Петр', 'Петрович', '2', '1995-07-20')");
             statement.close();
             conn.commit();
             e.printStackTrace();
