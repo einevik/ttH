@@ -107,7 +107,6 @@ public class MainUI extends UI {
         groupTable.setPageLength(5);
         groupTable.setSelectable(true);
 
-
         vLayout.addComponent(findLayout);
         findLayout.addComponent(findStudent);
         findLayout.addComponent(findGroup);
