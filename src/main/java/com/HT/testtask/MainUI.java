@@ -29,6 +29,7 @@ public class MainUI extends UI {
         StudensDAO studensDAO = new StudensDAO();
         GroupsDAO groupsDAO = new GroupsDAO();
         AddWindow addSub = new AddWindow();
+        AddWindowGroup addSubGroup = new AddWindowGroup();
 
         VerticalLayout vLayout = new VerticalLayout();
         HorizontalLayout hLayout = new HorizontalLayout();
@@ -41,7 +42,7 @@ public class MainUI extends UI {
         TextField findStudent = new TextField();
         findStudent.addValidator(new RegexpValidator("^[А-ЯЁа-яё]+$", "Кириллица без пробелов"));
         findStudent.setInputPrompt("Фамилия...");
-        findStudent.setWidth(String.valueOf(484));
+        findStudent.setWidth(String.valueOf(474));
         TextField findGroup = new TextField();
         findGroup.addValidator(new RegexpValidator("\\d+", "Только цифры без пробелов"));
         findGroup.setInputPrompt("Группа...");
@@ -53,7 +54,7 @@ public class MainUI extends UI {
         Button delete = new Button("Удалить");
         delete.setWidth(String.valueOf(233));
         Button apply = new Button("Приминть");
-        apply.setWidth(String.valueOf(130));
+        apply.setWidth(String.valueOf(140));
 
         Button addGroup = new Button("Добавить");
         addGroup.setWidth(String.valueOf(232));
@@ -81,11 +82,11 @@ public class MainUI extends UI {
         studentTable.setColumnHeader("NUMGROUP", "Группа");
         studentTable.setColumnAlignment("NUMGROUP", Table.ALIGN_CENTER);
         studentTable.setColumnHeader("DATE", "Дата рождения");
-        studentTable.setColumnWidth("SURNAME", 160);
-        studentTable.setColumnWidth("NAME", 160);
+        studentTable.setColumnWidth("SURNAME", 155);
+        studentTable.setColumnWidth("NAME", 155);
         studentTable.setColumnWidth("PATRONYMIC", 160);
         studentTable.setColumnWidth("NUMGROUP", 80);
-        studentTable.setColumnWidth("DATE", 130);
+        studentTable.setColumnWidth("DATE", 140);
         studentTable.setPageLength(10);
         studentTable.setSelectable(true);
 
@@ -101,7 +102,7 @@ public class MainUI extends UI {
         groupTable.setColumnHeader("NAMEFAC", "Факультет");
         groupTable.setColumnHeader("NUMGROUP", "Группа");
         groupTable.setColumnAlignment("NUMGROUP", Table.ALIGN_CENTER);
-        groupTable.setColumnWidth("NAMEFAC", 600);
+        groupTable.setColumnWidth("NAMEFAC", 603);
         groupTable.setColumnWidth("NUMGROUP", 90);
         groupTable.setPageLength(5);
         groupTable.setSelectable(true);
@@ -242,15 +243,32 @@ public class MainUI extends UI {
         addGroup.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(addSub);
+                UI.getCurrent().addWindow(addSubGroup);
             }
         });
 
-        addSub.addCloseListener(new Window.CloseListener() {
+        addSubGroup.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent closeEvent) {
-                SQLContainer update = (SQLContainer) studentTable.getContainerDataSource();
+                SQLContainer update = (SQLContainer) groupTable.getContainerDataSource();
                 update.refresh();
+            }
+        });
+
+        deleteGroup.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                Object rowId = groupTable.getValue();
+                if (rowId != null) {
+                    int id = (int) groupTable.getContainerProperty(rowId, "ID").getValue();
+                    groupsDAO.Delete(id);
+                    SQLContainer update = (SQLContainer) groupTable.getContainerDataSource();
+                    update.refresh();
+                    groupTable.setValue(null);
+                    Notification.show("Факультет удален", Type.TRAY_NOTIFICATION);
+                } else {
+                    Notification.show("Выберите Факультет", Type.TRAY_NOTIFICATION);
+                }
             }
         });
     }
