@@ -104,7 +104,7 @@ public class GroupsDAO {
         ConnectGroup connectGroup = new ConnectGroup();
         try {
             conn = connectGroup.connectionPool.reserveConnection();
-            try (PreparedStatement statement = conn.prepareStatement("UPDATE GroupTable SET nameFacADD=?, numGroup=? WHERE id=?")) {
+            try (PreparedStatement statement = conn.prepareStatement("UPDATE GroupTable SET nameFac=?, numGroup=? WHERE id=?")) {
                 statement.setObject(1, nameFacEdit);
                 statement.setObject(2, numGroupEdit);
                 statement.setObject(3, id);

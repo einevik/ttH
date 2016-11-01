@@ -270,5 +270,23 @@ public class MainUI extends UI {
                 }
             }
         });
+
+        editGroup.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                Object rowId = groupTable.getValue();
+                if (rowId != null) {
+                    int id = (int) groupTable.getContainerProperty(rowId, "ID").getValue();
+                    String nameFac = (String) groupTable.getContainerProperty(rowId, "NAMEFAC").getValue();
+                    int numGroup = (int) groupTable.getContainerProperty(rowId, "NUMGROUP").getValue();
+
+                    EditWindowGroup editSubGroup = new EditWindowGroup(id, nameFac, numGroup);
+
+                    UI.getCurrent().addWindow(editSubGroup);
+                } else {
+                    Notification.show("Выберите факультет", Type.TRAY_NOTIFICATION);
+                }
+            }
+        });
     }
 }
