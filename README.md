@@ -1,4 +1,4 @@
 # ttH
 
-maven package
-maven jetty:run
+mvn package
+mvn jetty:run
