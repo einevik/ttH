@@ -1,4 +1,4 @@
 # ttH
 
-mvn package\r
-mvn jetty:run
+mvn package
+\n mvn jetty:run
