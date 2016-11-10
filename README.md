@@ -6,6 +6,5 @@
 5. Фильтр
 
 ##### Запуск
-mvn package
-  
-mvn jetty:run
+1. mvn package
+2. mvn jetty:run
