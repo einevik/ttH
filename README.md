@@ -1,5 +1,5 @@
 # ttH
 
-  mvn package
+mvn package
   
-  mvn jetty:run
+mvn jetty:run
